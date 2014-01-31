@@ -1,0 +1,10 @@
+/ <ul>
+/ {{#each}}
+/   <li>{{this}}</li>
+/ {{/each}}
+/ </ul>
+
+ul
+  each
+    li
+      this

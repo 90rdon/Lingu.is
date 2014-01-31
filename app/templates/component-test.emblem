@@ -1,0 +1,6 @@
+/ {{#each}}
+/   {{pretty-color name=this}}
+/ {{/each}}
+
+each
+  pretty-color name=this

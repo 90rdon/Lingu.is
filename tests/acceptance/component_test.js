@@ -15,7 +15,7 @@ test('component output is rendered', function(){
   visit('/component-test').then(function(){
     var list = find('.pretty-color');
     equal(list.length, 3);
-    equal(list.first().text(), 'Pretty Color: purple\n');
+    equal(list.first().text(), 'Pretty Color: purple');
   });
 });
 
