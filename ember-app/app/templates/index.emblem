@@ -1,0 +1,16 @@
+/ <ul>
+/ {{#each}}
+/   <li>{{this}}</li>
+/ {{/each}}
+/ </ul>
+
+/ ul
+/   each
+/     li
+/       this
+
+.app
+  h1 Cordova
+  #deviceready.blink
+    p.event.listening Connecting to Me:)
+    p.event.received Me, Ready!!
