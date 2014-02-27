@@ -18,6 +18,7 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
+    "com.tokbox.cordova.opentok": "1.0.2",
     "org.apache.cordova.console": "0.2.6"
 }
 // BOTTOM OF METADATA

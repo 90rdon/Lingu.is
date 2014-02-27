@@ -1,0 +1,19 @@
+view 'navbar-affix'
+  #nav-wrapper
+    nav#linguis-navigation.navbar.navbar-default role='navigation'
+      .navbar-header
+        button.navbar-toggle type='button' data-toggle='collapse' data-target='#navbar-collapse'
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand href='#' Lingu.is
+
+      #navbar-collapse.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li
+            a.btn.btn-lg href='#' About Us
+          li
+            a.btn.btn-lg href='#' How-to
+
+        search-box search=search
