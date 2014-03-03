@@ -1,36 +1,14 @@
-/ <ul>
-/ {{#each}}
-/   <li>{{this}}</li>
-/ {{/each}}
-/ </ul>
-
-/ ul
-/   each
-/     li
-/       this
-
-#container-nav
-  nav-main search=search
-
-#container-main.viewport
-  / App.MasonryViewC
-  ul#grid.grid.effect-2
+.topcoat-list
+  ul.topcoat-list__container
     each currentContent
-      li.linguis-profile
-        .tile-wrapper
-          .tile
-            .content.category
-              fullName
-            / a href='/'
-            /   img.medium src=imgPath alt=fullName
-            .content.tagline
-              tagline
-            .content.bio
-              bio
-              filteredContent
-
-.app
-  h1 Cordova
-  #deviceready.blink
-    p.event.listening Connecting to Me:)
-    p.event.received Me, Ready!!
+      li.topcoat-list__item
+        a href='#/{{unbound id}}'
+          .tile-wrapper
+            .tile
+              .category
+                fullName
+              img.medium src=images.0.path alt=fullName
+              .tagline
+                tagline
+              .bio
+                bio

@@ -1,0 +1,10 @@
+.member-wrapper
+  .tile
+    .category
+      fullName
+    a href='/'
+      img.medium src=images.0.path alt=fullName
+    .tagline
+      tagline
+    .bio
+      bio

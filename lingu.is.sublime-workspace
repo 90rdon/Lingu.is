@@ -4,12 +4,20 @@
 		"selected_items":
 		[
 			[
-				"member",
-				"membersIsLoaded"
+				"mem",
+				"membersController"
 			],
 			[
-				"mem",
-				"members"
+				"pro",
+				"promises"
+			],
+			[
+				"indx",
+				"indexController"
+			],
+			[
+				"member",
+				"membersIsLoaded"
 			],
 			[
 				"filter",
@@ -54,10 +62,6 @@
 			[
 				"regex",
 				"regexp"
-			],
-			[
-				"pro",
-				"property"
 			],
 			[
 				"p",
@@ -510,44 +514,57 @@
 			[
 				"data",
 				"DataStax"
-			],
-			[
-				"cas",
-				"CASSANDRA_HOME"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "app/controllers/member.coffee",
+			"file": "app/templates/member.emblem",
 			"settings":
 			{
-				"buffer_size": 467,
-				"line_ending": "Unix"
+				"buffer_size": 196,
+				"line_ending": "Unix",
+				"name": "h2 Member Area"
 			}
 		},
 		{
 			"file": "app/templates/index.emblem",
 			"settings":
 			{
-				"buffer_size": 664,
+				"buffer_size": 1174,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/templates/loading.emblem",
+			"file": "app/router.coffee",
 			"settings":
 			{
-				"buffer_size": 181,
+				"buffer_size": 158,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/controllers/index.coffee",
+			"file": "app/routes/member.coffee",
 			"settings":
 			{
-				"buffer_size": 1393,
+				"buffer_size": 653,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/templates/application.emblem",
+			"settings":
+			{
+				"buffer_size": 1224,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/styles/linguis.styl",
+			"settings":
+			{
+				"buffer_size": 10114,
 				"line_ending": "Unix"
 			}
 		},
@@ -555,24 +572,7 @@
 			"file": "app/routes/index.coffee",
 			"settings":
 			{
-				"buffer_size": 832,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "Docket.OrganizationProjectsIndexRoute = Docket.AuthenticatedRoute.extend({\n  setupController: function() {\n    this.loadData();\n  },\n  loadData: function () {\n\n    var projectsController = this.controllerFor('organization.projects');\n\n    this.store.find('customer').then(function(customers) {\n      var promises =  customers.map(function(customer) {\n\n        return Ember.RSVP.hash({\n          customer: customer,\n          projects: customer.get('projects').then(function(projects) {\n            return projects.filter(function(project) {\n              return !project.get('archived');\n            });\n          });\n        });             \n\n      });\n\n      Ember.RSVP.all(promises).then(function(filteredProjects) {\n        projectsController.set('filteredProjects', filteredProjects);\n      });\n\n    });            \n\n  },\n  actions: {\n    remove: function (project) {\n      var _this = this;\n      project.destroyRecord().then(function() {\n        _this.loadData();\n      });\n    },\n    save: function() {\n      // create new record\n      var project = this.store.createRecord('project', _this.getProperties('name', 'number', 'description', 'archived'));\n\n      // set customer\n      project.set('customer', this.get('selectedCustomer'));\n\n      // validate and save if validation passes, otherwise show errors\n      projects.save().then(function () {\n        _this.closeForm();\n        _this.loadData();\n      }, function (response) {\n        _this.set('errors', response.errors);\n      });\n    }\n  }\n});",
-			"settings":
-			{
-				"buffer_size": 1510,
-				"line_ending": "Unix",
-				"name": "Docket.OrganizationProjectsIndexRoute = Docket.Aut"
-			}
-		},
-		{
-			"file": "app/models/member.coffee",
-			"settings":
-			{
-				"buffer_size": 3521,
+				"buffer_size": 908,
 				"line_ending": "Unix"
 			}
 		}
@@ -580,11 +580,15 @@
 	"build_system": "Packages/JSHint/JSHint.sublime-build",
 	"command_palette":
 	{
-		"height": 392.0,
+		"height": 47.0,
 		"selected_items":
 		[
 			[
 				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
 				"Package Control: Install Package"
 			],
 			[
@@ -620,7 +624,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 467.0
+		"width": 449.0
 	},
 	"console":
 	{
@@ -643,10 +647,69 @@
 	"file_history":
 	[
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/models/member.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/controllers/member.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/templates/index.emblem",
+		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/app/routes/indexRoute.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/node_modules/bower/node_modules/mout/lang/isNull.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/routes/index.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/routes/member.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/router.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/adapters/application.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/node_modules/loom/node_modules/cli-color/node_modules/es5-ext/lib/Array/prototype/last-index.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/node_modules/bower/node_modules/mout/array/pluck.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/app.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/styles/linguis.styl",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/platforms/ios/www/index.html",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tasks/options/copy.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/Gruntfile.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/index.html",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/.gitignore",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/views/slide-menu.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/views/.gitkeep",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/models/profile.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/models/image.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tests/acceptance/helper_test.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tasks/options/stylus.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/package.json",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tmp/result/assets/linguis.css",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tasks/options/less.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/node_modules/grunt-contrib-copy/tasks/copy.js",
+		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/test/client_oauth.sh",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/config.xml",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/templates/application.emblem",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/styles/linguis.less.bak",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tasks/express-server.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/controllers/index.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/bower.json",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/vendor/topcoat/css/topcoat-mobile-light.css",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tests/acceptance/index_test.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tasks/options/topcoat.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/vendor/ratchet/dist/ratchet-theme-ios.css",
+		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/app/templates/components/blog-post.emblem",
+		"/Users/superstitio/.bash_profile",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/phoneGapApp.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/templates/component-test.emblem",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/opentok.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/platforms/ios/cordova/lib/list-emulator-images",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/routes/loading.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/node_modules/ws/install.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/www/index.html",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/www-bkup/index.html",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/dist/index.html",
+		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/public/index.html",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/www-bkup/css/index.css",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/www-bkup/js/index.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/api-stub/routes.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/controllers/members.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/app/controllers/memberController.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/server/lib/sockets/socket-authorize.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/server/lib/sockets/socket-server.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/server/server.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/server/express.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/README.md",
+		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/server/lib/sockets/socket-adapter.coffee",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tasks/options/clean.js",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/templates/loading.emblem",
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tests/acceptance/helper_test.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tests/helpers/module_for.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tests/unit/models/member_test.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tests/integration/models/member.js",
@@ -654,9 +717,6 @@
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/components/template-less.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tests/acceptance/component_test.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/vendor/ember/ember.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/api-stub/routes.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/adapters/application.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/controllers/member.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tests/integration/models/member_test.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/ember-app-kit-todos/package.json",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/testem.json",
@@ -665,42 +725,27 @@
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/node_modules/sinon/test/sinon/test_test.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tasks/options/emberTemplates.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tests/integration/models/members_test.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/Gruntfile.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/templates/index.emblem",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tmp/result/tests/tests.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tests/data/members.json",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/router.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/README.md",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/adapters/fixture.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/controllers/members.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/node_modules/coffeelint-brunch/node_modules/coffeelint/node_modules/browserify/test/multi_entry.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tmp/javascript/app/controllers/members.js",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/app/controllers/membersController.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/node_modules/express/node_modules/connect/lib/middleware/methodOverride.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tests/unit/controllers/members_test.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tests/integration/index_test.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/package.json",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/.travis.yml",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/.gitignore",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/routes/indexRoute.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/models/member.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/models/profile.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/controllers/index.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/routes/index.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/server/routes/postRoute.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/www/index.html",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/assets/index.html",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/node_modules/bower/node_modules/mout/lang/isNull.js",
 		"/Users/superstitio/Documents/workspace/members.json",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/bower.json",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/templates/components/search-box.emblem",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/templates/components/nav-main.emblem",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/index.html",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tasks/options/copy.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tmp/result/index.html",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/templates/components/container-profile.emblem",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/node_modules/grunt-contrib-clean/docs/clean-options.md",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/config.xml",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tasks/options/cordovacli.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/templates/components/search-box.emblem",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/views/navbar-affix.coffee",
@@ -708,23 +753,18 @@
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/templates/components/nav-main.emblem",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/.bowerrc",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/platforms/ios/cordova/apple_ios_version",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tmp/result/assets/linguis.css",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/assets/fonts/glyphicons-halflings-regular.svg",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/node_modules/grunt/node_modules/lodash/vendor/tar/lib/global-header-writer.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/node_modules/grunt/node_modules/lodash/vendor/tar/lib/extended-header.js",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/node_modules/grunt-contrib-testem/node_modules/testem/node_modules/tap/lib/tap-cov-html.js",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/templates/components/nav-account.emblem",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/templates/index.emblem",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/templates/loading.emblem",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/controllers/membersController.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is_my/vendor/styles/linguis.less",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/routes/loading.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/views/navbarAffixView.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/store/fixtureAdapter.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/data/linguisList.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/models/linguis.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/templates/application.emblem",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/app.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/app.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/bower.json",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/adapters/application.coffee",
@@ -733,43 +773,7 @@
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/app.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/router.coffee",
 		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/models/post.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/models/comment.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/routes/index.coffee",
-		"/Users/superstitio/.bash_profile",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/api-stub/routes.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/index.html",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/vendor/fastclick/lib/fastclick.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/tasks/options/fancySprites.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/controllers/members.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/store/application.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/views/masonryView.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/views/navbarAffixView.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/node_modules/bower/node_modules/retry/lib/retry_operation.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/node_modules/bower/node_modules/mout/lang/isNull.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/phoneGapApp.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/package.json",
-		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/models/photo.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/Gruntfile.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/tasks/options/clean.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/tasks/options/copy.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/platforms/ios/www/index.html",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/www2/index.html",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/platforms/ios/www/assets/74f482d5.app.min.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/www/js/index.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/node_modules/grunt-contrib-clean/docs/clean-options.md",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/new/index.html",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/styles/app.css",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/www2/js/index.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/www2/css/index.css",
-		"/Users/superstitio/Documents/workspace/sandbox/node.js/brunch/ember.js/lingu.is/app/initialize.coffee",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/templates/application.emblem",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/cordova/www/css/index.css",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/tasks/options/imagemin.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/templates/index.emblem",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/node_modules/bower/Gruntfile.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ios/www/index.html",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/node_modules/grunt-emblem/node_modules/jsdom/node_modules/cssstyle/lib/properties/pauseAfter.js",
-		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app/models/linguis.coffee"
+		"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/ember-app/app/models/comment.coffee"
 	],
 	"find":
 	{
@@ -780,6 +784,14 @@
 		"height": 93.0,
 		"where_history":
 		[
+			"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app",
+			"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is",
+			"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tasks",
+			"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is",
+			"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tasks",
+			"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tasks/options",
+			"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is",
+			"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/app",
 			"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/",
 			"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tests",
 			"/Users/superstitio/Documents/workspace/sandbox/ember.js/lingu.is/tasks",
@@ -835,6 +847,26 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"cssToResult",
+			"topcoat/",
+			"Test",
+			"\"",
+			"buildStyles",
+			"stylus",
+			"fontsToResult",
+			"topcoat",
+			"cssmin",
+			"concat",
+			"dist",
+			"assem",
+			".popover.table-view",
+			".popover .table-view",
+			"assemb",
+			"copy:",
+			"css",
+			"FastClick.prototype.deviceIsIOS",
+			"#grid",
+			"\"",
 			"idnex",
 			"\"",
 			"todo",
@@ -942,27 +974,7 @@
 			"scrollY",
 			"inViewport",
 			"querySelectorAll",
-			"this.el",
-			"Test",
-			"templates/components",
-			"sidepanel",
-			"\"",
-			"templates/components",
-			"Ads:onload()",
-			"capitalizeFirst",
-			"event.returnValue",
-			"<script",
-			"logo",
-			".wrapper",
-			"-tile",
-			"tile",
-			".profiles-container",
-			"header-link",
-			"link",
-			"external",
-			"sale",
-			"slideshow",
-			"sale"
+			"this.el"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -970,6 +982,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"",
 			"'",
 			"member",
 			"members",
@@ -1076,24 +1089,114 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/controllers/member.coffee",
+					"file": "app/templates/member.emblem",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 467,
+						"buffer_size": 196,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								432,
-								432
+								124,
+								124
+							]
+						],
+						"settings":
+						{
+							"auto_name": "h2 Member Area",
+							"syntax": "Packages/ruby-slim.tmbundle/Syntaxes/Ruby Slim.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/templates/index.emblem",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1174,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								136,
+								136
+							]
+						],
+						"settings":
+						{
+							"history_list_is_closing": true,
+							"syntax": "Packages/ruby-slim.tmbundle/Syntaxes/Ruby Slim.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/router.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 158,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								72,
+								72
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/routes/member.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 653,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								653,
+								653
 							]
 						],
 						"settings":
@@ -1106,24 +1209,30 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 6,
 					"type": "text"
-				},
+				}
+			]
+		},
+		{
+			"selected": 2,
+			"sheets":
+			[
 				{
-					"buffer": 1,
-					"file": "app/templates/index.emblem",
+					"buffer": 4,
+					"file": "app/templates/application.emblem",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 664,
+						"buffer_size": 1224,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								233,
-								233
+								439,
+								439
 							]
 						],
 						"settings":
@@ -1140,142 +1249,50 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "app/templates/loading.emblem",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 181,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								181,
-								181
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ruby-slim.tmbundle/Syntaxes/Ruby Slim.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/controllers/index.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1393,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								810,
-								810
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 4,
-					"file": "app/routes/index.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 832,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								748,
-								748
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
 					"buffer": 5,
+					"file": "app/styles/linguis.styl",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1510,
+						"buffer_size": 10114,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								642,
-								642
+								9473,
+								9473
 							]
 						],
 						"settings":
 						{
-							"auto_name": "Docket.OrganizationProjectsIndexRoute = Docket.Aut",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"syntax": "Packages/Stylus/editors/Stylus.tmbundle/Syntaxes/Stylus.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 5665.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "app/models/member.coffee",
+					"file": "app/routes/index.coffee",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3521,
+						"buffer_size": 908,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								908,
+								908
 							]
 						],
 						"settings":
@@ -1288,7 +1305,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -1322,7 +1339,7 @@
 		"cols":
 		[
 			0.0,
-			0.566363979948,
+			0.462553547903,
 			1.0
 		],
 		"rows":
@@ -1356,16 +1373,68 @@
 		"selected_items":
 		[
 			[
+				"member",
+				"app/routes/member.coffee"
+			],
+			[
+				"index",
+				"app/routes/index.coffee"
+			],
+			[
+				"linguis",
+				"app/styles/linguis.styl"
+			],
+			[
+				"aplicaion",
+				"app/templates/application.emblem"
+			],
+			[
+				"grunt",
+				"lingu.is/Gruntfile.js"
+			],
+			[
+				"pack",
+				"lingu.is/package.json"
+			],
+			[
+				"copy",
+				"lingu.is/tasks/options/copy.js"
+			],
+			[
+				"bower",
+				"lingu.is/bower.json"
+			],
+			[
+				"pac",
+				"lingu.is/package.json"
+			],
+			[
+				"grun",
+				"lingu.is/Gruntfile.js"
+			],
+			[
+				"inde",
+				"app/templates/index.emblem"
+			],
+			[
+				"lingui",
+				"app/styles/linguis.styl"
+			],
+			[
+				"install",
+				"lingu.is_my/node_modules/ws/install.js"
+			],
+			[
+				"membe",
+				"app/controllers/member.coffee"
+			],
+			[
 				"mem",
 				"app/models/member.coffee"
 			],
 			[
 				"teste",
 				"lingu.is/testem.json"
-			],
-			[
-				"grunt",
-				"lingu.is/Gruntfile.js"
 			],
 			[
 				"rout",
@@ -1384,10 +1453,6 @@
 				"lingu.is/api-stub/routes.js"
 			],
 			[
-				"pack",
-				"lingu.is/package.json"
-			],
-			[
 				".tra",
 				"lingu.is/.travis.yml"
 			],
@@ -1398,14 +1463,6 @@
 			[
 				"indexroute",
 				"app/routes/indexRoute.coffee"
-			],
-			[
-				"bower",
-				"lingu.is/bower.json"
-			],
-			[
-				"copy",
-				"lingu.is/tasks/options/copy.js"
 			],
 			[
 				"appli",
@@ -1420,20 +1477,12 @@
 				"lingu.is/ember-app/vendor/fastclick/lib/fastclick.js"
 			],
 			[
-				"index",
-				"lingu.is/cordova/www/index.html"
-			],
-			[
 				"gru",
 				"lingu.is/ember-app/Gruntfile.js"
 			],
 			[
 				"app",
 				"app/app.coffee"
-			],
-			[
-				"pac",
-				"lingu.is/package.json"
 			],
 			[
 				"pakc",
@@ -1500,10 +1549,6 @@
 				"lingu.is/node_modules/socket.io/node_modules/socket.io-client/lib/vendor/web-socket-js/flash-src/WebSocketMainInsecure.as"
 			],
 			[
-				"linguis",
-				"app/controllers/linguisController.coffee"
-			],
-			[
 				"search-box",
 				"lingu.is/app/templates/components/search-box.emblem"
 			],
@@ -1518,10 +1563,6 @@
 			[
 				"mas",
 				"app/views/masonryView.coffee"
-			],
-			[
-				"lingui",
-				"lingu.is/app/controllers/linguisController.coffee"
 			],
 			[
 				"search-",
@@ -1550,10 +1591,6 @@
 			[
 				"vendor",
 				"lingu.is/public/javascripts/vendor.js"
-			],
-			[
-				"inde",
-				"app/assets/index.html"
 			],
 			[
 				"vend",
@@ -1686,10 +1723,6 @@
 			[
 				"joincon",
 				"app/controllers/joinController.coffee"
-			],
-			[
-				"member",
-				"app/models/member.coffee"
 			],
 			[
 				"inti",
@@ -1850,22 +1883,6 @@
 			[
 				"exp",
 				"server/express.coffee"
-			],
-			[
-				"pa",
-				"linguis/package.json"
-			],
-			[
-				"ex",
-				"server/express.coffee"
-			],
-			[
-				"auth2",
-				"server/lib/auth/oauth2orize.coffee"
-			],
-			[
-				"sin",
-				"app/routes/signInRoute.coffee"
 			]
 		],
 		"width": 0.0
@@ -1897,7 +1914,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 271.0,
+	"side_bar_width": 300.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

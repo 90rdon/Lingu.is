@@ -1,30 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--<meta charset="utf-8">-->
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="format-detection" content="telephone=no" />
+  <!--<meta charset='utf-8'>-->
+  <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <meta name='format-detection' content='telephone=no' />
   <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+  <meta name='viewport' content='user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi' />
   
   <title>Lingu.is</title>
-  <meta name="description" content="">
-  <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+  <meta name='description' content=''>
+  <!--<meta name='viewport' content='width=device-width, initial-scale=1'>-->
 
   <!-- build:css(tmp/result) assets/app.min.css -->
-  <link rel="stylesheet" href="/assets/app.css">
-  <link rel="stylesheet" href="/assets/linguis.css">
+  <link rel='stylesheet' href='/assets/app.css'>
+  <link rel='stylesheet' href='/assets/linguis.css'>
   <!-- endbuild -->
 
   <!-- build:css(tmp/result) assets/vendor.min.css -->
     
     <!-- @if dist=false -->
-    <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap-theme.css">
+    <link rel='stylesheet' href='/vendor/topcoat/css/topcoat-mobile-light.css'>
     <!-- @endif --><!-- @if dist=true -->
-    <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel='stylesheet' href='/vendor/topcoat/css/topcoat-mobile-light.min.css'>
     <!-- @endif -->
 
   <!-- endbuild -->
@@ -33,52 +31,51 @@
 
   <!-- build:js(tmp/result) assets/config.min.js -->
 
-    <script src="/config/environment.js"></script>
+    <script src='/config/environment.js'></script>
     <!-- @if tests=false -->
 
       <!-- @if dist=false -->
-      <script src="/config/environments/development.js"></script>
+      <script src='/config/environments/development.js'></script>
       <!-- @endif --><!-- @if dist=true -->
-      <script src="/config/environments/production.js"></script>
+      <script src='/config/environments/production.js'></script>
       <!-- @endif -->
 
     <!-- @endif --><!-- @if tests=true -->
-      <script src="/config/environments/test.js"></script>
+      <script src='/config/environments/test.js'></script>
     <!-- @endif -->
 
   <!-- endbuild -->
 
   <!-- build:js(tmp/result) assets/vendor.min.js -->
 
-    <script src="/vendor/jquery/jquery.js"></script>
+    <script src='/vendor/jquery/jquery.js'></script>
+    <script src='/vendor/fastclick/lib/fastclick.js'></script>
 
     <!-- @if dist=false -->
-    <script src="/vendor/handlebars/handlebars.js"></script>
-    <script src="/vendor/ember/ember.js"></script>
-    <script src="/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <script src='/vendor/handlebars/handlebars.js'></script>
+    <script src='/vendor/ember/ember.js'></script>
     <!-- @endif --><!-- @if dist=true -->
-    <script src="/vendor/handlebars/handlebars.runtime.js"></script>
-    <script src="/vendor/ember/ember.prod.js"></script>
-    <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>    
+    <script src='/vendor/handlebars/handlebars.runtime.js'></script>
+    <script src='/vendor/ember/ember.prod.js'></script>  
     <!-- @endif -->
 
-    <script src="/vendor/ember-data/ember-data.js"></script>
-    <script src="/vendor/loader.js"></script>
-    <script src="/vendor/ember-resolver/dist/ember-resolver.js"></script>
-    <script src="/vendor/ic-ajax/main.js"></script>
+    <script src='/vendor/ember-data/ember-data.js'></script>
+    <script src='/vendor/loader.js'></script>
+    <script src='/vendor/ember-resolver/dist/ember-resolver.js'></script>
+    <script src='/vendor/ic-ajax/main.js'></script>
 
   <!-- endbuild -->
 
   <!-- build:js(tmp/result) assets/app.min.js -->
 
-    <script src="/assets/app.js"></script>
-    <script src="/assets/templates.js"></script>
+    <script src='/assets/app.js'></script>
+    <script src='/assets/templates.js'></script>
 
   <!-- endbuild -->
 
   <!-- @if tests=true -->
-  <link rel="stylesheet" href="/vendor/qunit/qunit/qunit.css">
-  <script src="/vendor/qunit/qunit/qunit.js"></script>
+  <link rel='stylesheet' href='/vendor/qunit/qunit/qunit.css'>
+  <script src='/vendor/qunit/qunit/qunit.js'></script>
 
   <style>
     #ember-testing-container {
@@ -101,35 +98,35 @@
 </head>
 <body>
   <!--[if lt IE 8]>
-    <p class="browsehappy">
+    <p class='browsehappy'>
       You are using an <strong>outdated</strong> browser. Please
-      <a href="http://browsehappy.com/">upgrade your browser</a>
+      <a href='http://browsehappy.com/'>upgrade your browser</a>
       to improve your experience.
     </p>
   <![endif]-->
 
   <!-- @if tests=true -->
-  <div id="qunit"></div>
-  <div id="qunit-fixture"></div>
-  <script src="/tests/tests.js"></script>
-  <script src="/tests/test_helper.js"></script>
-  <script src="/tests/test_loader.js"></script>
-  <script src="/testem.js"></script>
+  <div id='qunit'></div>
+  <div id='qunit-fixture'></div>
+  <script src='/tests/tests.js'></script>
+  <script src='/tests/test_helper.js'></script>
+  <script src='/tests/test_loader.js'></script>
+  <script src='/testem.js'></script>
   <!-- @endif -->
 
   <!-- @if tests=false -->
-  <script type="text/javascript" src="cordova.js"></script>
-  <script type="text/javascript" src="cordova_plugins.js"></script>
-  <script type="text/javascript" src="opentok.js"></script>
+  <script type='text/javascript' src='cordova.js'></script>
+  <script type='text/javascript' src='cordova_plugins.js'></script>
+  <!-- <script type='text/javascript' src='opentok.js'></script> -->
   <script>
       $(function () {
         console.log('Starting PhoneGap');
       
-        App = require('appkit/app')["default"].create();
+        App = require('appkit/app')['default'].create();
         window.addEventListener('load', function() {
             new FastClick(document.body);
         }, false);
-        // phoneGapApp = require('appkit/phoneGapApp')["default"];
+        // phoneGapApp = require('appkit/phoneGapApp')['default'];
         App.phoneGapApp.initialize();
         if (window.device) {
             // A mobile device is being used

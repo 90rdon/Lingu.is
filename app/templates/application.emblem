@@ -1,7 +1,39 @@
-/ <h2 id='title'>Welcome to Ember.js</h2>
+.topcoat-navigation-bar
+  .topcoat-navigation-bar__item.left.quarter
+    view 'slide-menu'
+      a#slide-menu-button.topcoat-icon-button-quiet.slide-menu-button
+        span.topcoat-icon.topcoat-icon--menu-stack
+  
+  .topcoat-navigation-bar__item.center.half
+    h1.topcoat-navigation-bar__title Lingu.is
 
-/ {{outlet}}
+  .topcoat-navigation-bar__item.right.quarter
+    a#search-menu-button.topcoat-icon-button--quiet
+      span.topcoat-icon.icon-search
 
-h2#title Welcome to Ember.js
+.side-nav
+  nav.site
+    ul.topcoat-list.side-nav__list
+      li.topcoat-list__item.side-nav-list.is-active
+        a.side-nav__button href='#'
+          p
+            span.menu-icon-edit Edit
+      li.topcoat-list__item.side-nav-list.is-active
+        a.side-nav__button href='#'
+          p
+            span.menu-icon-calendar Calendar
+      li.topcoat-list__item.side-nav-list.is-active
+        a.side-nav__button href='#'
+          p
+            span.menu-icon-twitter Twitter
+      li.topcoat-list__item.side-nav-list.is-active
+        a.side-nav__button href='#'
+          p
+            span.menu-icon-print Print
+      li.topcoat-list__item.side-nav-list.is-active
+        a.side-nav__button href='#'
+          p
+            span.menu-icon-feedback Feedback
 
-outlet
+.content
+  outlet

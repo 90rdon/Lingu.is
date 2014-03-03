@@ -85,7 +85,7 @@ module.exports = function(grunt) {
                      'clean:dist',
                      'build:dist',
                      'copy:assemble',
-                     'copy:fontsToResult',
+                     // 'copy:fontsToResult',
                      'createDistVersion',
                      'copy:cordova',
                      ]);
@@ -208,6 +208,7 @@ module.exports = function(grunt) {
                      'less:compile',
                      'stylus:compile',
                      'copy:cssToResult',
+                     'copy:topcoatImgToResult',
                      'autoprefixer:app'
                      ]));
 

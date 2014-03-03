@@ -20,15 +20,15 @@ module.exports = {
   cssToResult: {
     expand: true,
     cwd: 'app/styles',
-    src: ['**/*.css'],
+    src: ['**/*.css', '!**/*.styl'],
     dest: 'tmp/result/assets'
   },
 
-  fontsToResult: {
+  topcoatImgToResult: {
     expand: true,
-    cwd: 'vendor/bootstrap/dist',
-    src: 'fonts/*',
-    dest: 'tmp/result/'
+    cwd: 'vendor/topcoat',
+    src: 'img/*',
+    dest: 'tmp/result'
   },
 
   // Assembles everything in `tmp/result`.
