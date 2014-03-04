@@ -2,7 +2,7 @@
   "name": "lingu.is",
   "namespace": "appkit",
   "APIMethod": "stub",
-  "proxyURL": "http://localhost:8000",
+  "proxyURL": "http://linguis.heroku-app.com",
   "version": "0.0.0",
   "private": true,
   "directories": {
@@ -17,7 +17,10 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/octapus/Lingu.is.git"
+  },
+  "engines": {
+    "node": "~0.10.x"
   },
   "author": "Gordon Chan",
   "license": "",
@@ -51,7 +54,7 @@
     "grunt-emblem": "~0.1.0",
     "grunt-contrib-coffee": "~0.9.0",
     "grunt-contrib-less": "~0.9.0",
-    "grunt-contrib-stylus": "~0.13.2"
+    "grunt-contrib-stylus": "~0.13.2",
     "opentok": "0.3.x"
   },
   "devDependencies": {
