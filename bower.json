@@ -10,7 +10,7 @@
     "ic-ajax": "~0.3.0",
     "ember-testing-httpRespond": "~0.1.1",
     "emblem.js": "~0.3.11",
-    "bootstrap": "~3.1.0"
+    "topcoat": "~0.8.0"
   },
   "resolutions": {
     "ember": "~1.4.0-beta.2"
