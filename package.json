@@ -1,8 +1,10 @@
 {
   "name": "lingu.is",
   "namespace": "appkit",
-  "APIMethod": "stub",
-  "proxyURL": "http://linguis.heroku-app.com",
+  "APIMethod": "proxy",
+  "proxyURL": "http://0.0.0.0:3333",
+  "mongodbUri": "mongodb://guest:linguisguest@ds033639.mongolab.com:33639/heroku_app22711269",
+  "mongodbPoolSize": 3,
   "version": "0.0.0",
   "private": true,
   "directories": {
@@ -87,6 +89,8 @@
     "grunt-emblem": "~0.1.0",
     "grunt-contrib-coffee": "~0.9.0",
     "grunt-contrib-less": "~0.9.0",
-    "grunt-contrib-stylus": "~0.13.2"
+    "grunt-contrib-stylus": "~0.13.2",
+    "mongoose-query": "~0.1.5",
+    "flat": "~1.2.0"
   }
 }

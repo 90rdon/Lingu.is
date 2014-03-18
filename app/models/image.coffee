@@ -3,9 +3,11 @@ hasMany   = DS.hasMany
 belongsTo = DS.belongsTo
 
 image = DS.Model.extend
-  desc:     attr()
-  path:     attr()
+  # desc:     attr()
+  uri:      attr()
   member:   belongsTo('member')
+
+# image.primaryKey = 'path'
 
 image.reopenClass
   FIXTURES: [{

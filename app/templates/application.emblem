@@ -1,39 +1,23 @@
-.topcoat-navigation-bar
+.topcoat-navigation-bar.effeckt
   .topcoat-navigation-bar__item.left.quarter
-    view 'slide-menu'
-      a#slide-menu-button.topcoat-icon-button-quiet.slide-menu-button
-        span.topcoat-icon.topcoat-icon--menu-stack
+    a href='/'
+      h1.topcoat-navigation-bar__title.center Lingu.is
   
   .topcoat-navigation-bar__item.center.half
-    h1.topcoat-navigation-bar__title Lingu.is
+    view Em.TextField class='topcoat-search-input icomatic' type='search' valueBinding='controllers.index.search' placeholder='search'
 
-  .topcoat-navigation-bar__item.right.quarter
-    a#search-menu-button.topcoat-icon-button--quiet
-      span.topcoat-icon.icon-search
+  .topcoat-navigation-bar__item.center.quarter
+    a#off-screen-nav-button.topcoat-icon-button-quiet.off-screen-nav-button data-effeckt='effeckt-off-screen-nav-right-squeeze'
+      span.user-icon.icomatic user
 
-.side-nav
-  nav.site
-    ul.topcoat-list.side-nav__list
-      li.topcoat-list__item.side-nav-list.is-active
-        a.side-nav__button href='#'
-          p
-            span.menu-icon-edit Edit
-      li.topcoat-list__item.side-nav-list.is-active
-        a.side-nav__button href='#'
-          p
-            span.menu-icon-calendar Calendar
-      li.topcoat-list__item.side-nav-list.is-active
-        a.side-nav__button href='#'
-          p
-            span.menu-icon-twitter Twitter
-      li.topcoat-list__item.side-nav-list.is-active
-        a.side-nav__button href='#'
-          p
-            span.menu-icon-print Print
-      li.topcoat-list__item.side-nav-list.is-active
-        a.side-nav__button href='#'
-          p
-            span.menu-icon-feedback Feedback
+view 'effeckt-container'
+  view 'effeckt-off-screen-nav'
+    nav#effeckt-off-screen-nav.effeckt-off-screen-nav.topcoat-list__container style='display:block;'      
+      .offscreen-nav-container
+        h4.topcoat-list__header.nav-header 
+          a#effeckt-off-screen-nav-close.effeckt-off-screen-nav-close href='#' x
 
-.content
-  outlet
+    .off-screen-nav-cover
+
+    .page
+      outlet

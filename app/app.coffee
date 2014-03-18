@@ -1,4 +1,4 @@
-`import Resolver from 'resolver'`
+`import Resolver from 'ember/resolver'`
 `import phoneGapApp from 'appkit/phoneGapApp'`
 
 App = Ember.Application.extend

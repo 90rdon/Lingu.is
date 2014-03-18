@@ -2,7 +2,12 @@ var Helpers = require('../helpers'),
     filterAvailable = Helpers.filterAvailableTasks,
     liveReloadPort = parseInt(process.env.PORT || 8000, 10) + 2;
 
-var scripts = '{app,tests,config}/**/*.{js,coffee,em}',
+var server = [
+      'server/**/*.{js,coffee}'
+    ],
+    scripts = [
+      '{app,tests,config}/**/*.{js,coffee,em}'
+    ],
     templates = 'app/templates/**/*.{hbs,handlebars,hjs,emblem}',
     sprites = 'app/sprites/**/*.{png,jpg,jpeg}',
     styles = 'app/styles/**/*.{css,sass,scss,less,styl}',
@@ -12,6 +17,13 @@ var scripts = '{app,tests,config}/**/*.{js,coffee,em}',
     npmFile = 'package.json';
 
 module.exports = {
+  // express: {
+  //   files:  [server],
+  //   tasks:  [ 'lock', 'expressServer:debug', 'unlock' ],
+  //   options: {
+  //     spawn: false // for grunt-contrib-watch v0.5.0+, "nospawn: true" for lower versions. Without this option specified express won't be reloaded
+  //   }
+  // },
   scripts: {
     files: [scripts],
     tasks: ['lock', 'buildScripts', 'unlock']

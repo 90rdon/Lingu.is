@@ -1,7 +1,4 @@
-# ApplicationAdapter = DS.RESTAdapter.extend
-#   # host:       ''
-#   namespace:  'api'
-
-ApplicationAdapter = DS.FixtureAdapter.extend()
+ApplicationAdapter = DS.FirebaseAdapter.extend
+  firebase: new Firebase 'https://linguis.firebaseio.com/'
 
 `export default ApplicationAdapter`

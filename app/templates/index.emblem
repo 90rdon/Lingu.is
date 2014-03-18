@@ -1,14 +1,6 @@
 .topcoat-list
-  ul.topcoat-list__container
-    each currentContent
+  ul.topcoat-list__container.effeckt-list-scroll.list-fade data-effeckt='fade'
+    each memberList
       li.topcoat-list__item
         a href='#/{{unbound id}}'
-          .tile-wrapper
-            .tile
-              .category
-                fullName
-              img.medium src=images.0.path alt=fullName
-              .tagline
-                tagline
-              .bio
-                bio
+          member-item member=this

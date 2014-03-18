@@ -7,8 +7,9 @@ member    = DS.Model.extend
   last:       attr()
   tagline:    attr()
   bio:        attr()
-  images:     hasMany('image', async: true)
-  profiles:   hasMany('profile', async: true)
+  image:      attr()
+  # images:     hasMany('image', { embedded: true })
+  # profiles:   hasMany('profile', { embedded: true })
 
   fullName: (->
     first   = @get('first') || ''

@@ -17,18 +17,38 @@ module.exports = {
     }]
   },
 
-  cssToResult: {
-    expand: true,
-    cwd: 'app/styles',
-    src: ['**/*.css', '!**/*.styl'],
-    dest: 'tmp/result/assets'
+  stylesToTmp: {
+    files: [{
+      expand: true,
+      cwd: 'app/styles',
+      src: ['**/*.css', '!**/*.styl'],
+      dest: 'tmp/result/assets'
+    },
+    {
+      expand: true,
+      cwd: 'vendor/icomatic/kit',
+      src: ['*.{eot,svg,ttf,woff}'],
+      dest: 'tmp/result/assets'
+    },
+    {
+      expand: true,
+      cwd: 'vendor/topcoat',
+      src: ['**/*.{eot,svg,ttf,woff,otf}', '!demo/**/*'],
+      dest: 'tmp/result'
+    }]
   },
 
-  topcoatImgToResult: {
-    expand: true,
-    cwd: 'vendor/topcoat',
-    src: 'img/*',
-    dest: 'tmp/result'
+  cordova: {
+    files: [{
+      expand: true,
+      cwd: 'dist/',
+      src: [
+        '**'
+        // '!**/index.html'  // cordova uses a different index page
+      ],
+      filter: 'isFile',
+      dest: 'cordova/www'
+    }]
   },
 
   // Assembles everything in `tmp/result`.
@@ -74,19 +94,6 @@ module.exports = {
       ],
       filter: 'isFile',
       dest: 'dist/'
-    }]
-  },
-
-  cordova: {
-    files: [{
-      expand: true,
-      cwd: 'dist/',
-      src: [
-        '**'
-        // '!**/index.html'  // cordova uses a different index page
-      ],
-      filter: 'isFile',
-      dest: 'cordova/www'
     }]
   },
 };

@@ -3,17 +3,18 @@ indexController = Ember.ObjectController.extend
     'members'
   ]
 
-  search:         null
-  currentContent: Em.A([])
+  search:     null
+  memberList: null
 
   membersIsLoaded: (->
-    console.log 'controller:index - membersIsLoaded'
-    @set('currentContent', @get('controllers.members.content'))
+    @set('memberList', @get('controllers.members'))
   ).observes('controllers.members.content.isLoaded')
 
   searching: (->
-    console.log 'searching - ' + @get('search')
-    @get('filtered')
+    self = @
+    Ember.run.later ->
+      self.get('filtered')
+    , 5
   ).observes('search')
 
   sorted: (->
@@ -22,7 +23,7 @@ indexController = Ember.ObjectController.extend
       content:@get('filteredContent')
       sortProperties: @get('sortProperties')
       sortAscending: @get('sortAscending')
-    @set('currentContent', result)
+    @set('memberList', result)
   ).observes('arrangedContent', 'sortAscending')
 
   changed: (->
@@ -30,19 +31,20 @@ indexController = Ember.ObjectController.extend
   ).observes('content.@each')
 
   filteredContent: (->
-    console.log 'filteredContent'
-    regexp = new RegExp(@get('search'))
-    result = @get('controllers.members').filter (item) ->
-      regexp.test item.get('first')
-  ).property('search', 'controllers.members.@each.first')
+    regexp = new RegExp(@get('search'), 'i')
+    result = @get('controllers.members.content').filter (item) ->
+      hasMatch = item.get('constructor.attributes.keys.list').filter (prop) ->
+        regexp.test item.get(prop)
+
+      if hasMatch.length > 0 then true else false
+  ).property('search', 'controllers.members')
 
   filtered: (->
-    console.log 'filtered'
     result = Em.ArrayProxy.createWithMixins Em.SortableMixin,
       content:@get('filteredContent')
       sortProperties: @get('sortProperties')
       sortAscending: @get('sortAscending')
-    @set('currentContent', result)
+    @set('memberList', result)
   ).property('filteredContent')
 
 `export default indexController`

@@ -12,7 +12,7 @@
   <meta name='description' content=''>
   <!--<meta name='viewport' content='width=device-width, initial-scale=1'>-->
 
-  <link rel="stylesheet" href="assets/80c792fb.app.min.css">
+  <link rel="stylesheet" href="assets/1e244d46.app.min.css">
 
   <link rel="stylesheet" href="assets/vendor.min.css">
 
@@ -20,9 +20,9 @@
 
   <script src="assets/acb720d0.config.min.js"></script>
 
-  <script src="assets/45ac9290.vendor.min.js"></script>
+  <script src="assets/4a4b6d23.vendor.min.js"></script>
 
-  <script src="assets/8a1fe470.app.min.js"></script>
+  <script src="assets/af69359b.app.min.js"></script>
 
 </head>
 <body>
@@ -39,22 +39,16 @@
   <!-- <script type='text/javascript' src='opentok.js'></script> -->
   <script>
       $(function () {
-        console.log('Starting PhoneGap');
-      
         App = require('appkit/app')['default'].create();
         window.addEventListener('load', function() {
             new FastClick(document.body);
         }, false);
-        // phoneGapApp = require('appkit/phoneGapApp')['default'];
         App.phoneGapApp.initialize();
         if (window.device) {
             // A mobile device is being used
-            console.log('Device in use');
         } else {
             //If a mobile device is not being used then lets kick off the app
-            console.log('Device ready');
             App.phoneGapApp.onDeviceReady();
-            console.log('Device readied');
         }
       })
   </script>

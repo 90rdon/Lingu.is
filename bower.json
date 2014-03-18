@@ -4,15 +4,24 @@
     "handlebars": "~1.1.2",
     "jquery": "~1.9.1",
     "qunit": "~1.12.0",
-    "ember": "~1.4.0-beta.2",
-    "ember-data": "~1.0.0-beta.6",
+    "ember": "~1.4.0",
+    "ember-data": "~1.0.0-beta.7",
     "ember-resolver": "git://github.com/stefanpenner/ember-jj-abrams-resolver.git#master",
     "ic-ajax": "~0.3.0",
     "ember-testing-httpRespond": "~0.1.1",
     "emblem.js": "~0.3.11",
-    "topcoat": "~0.8.0"
+    "topcoat": "~0.8.0",
+    "topcoat-effeckt": "git://github.com/topcoat/topcoat-effeckt.git#gh-pages",
+    "icomatic": "git://github.com/icomatic/sample-set.git#master",
+    "flexbox-grid": "https://github.com/zeMirco/flexbox-grid.git#master",
+    "swag": "~0.6.1",
+    "modernizr": "~2.7.2",
+    "fastclick": "~1.0.0",
+    "firebase": "~1.0.10",
+    "emberfire": "https://github.com/firebase/emberFire.git#gh-pages"
   },
   "resolutions": {
-    "ember": "~1.4.0-beta.2"
+    "ember": "~1.4.0",
+    "handlebars": "~1.1.2"
   }
 }

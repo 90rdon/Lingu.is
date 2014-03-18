@@ -1,0 +1,11 @@
+with member
+  .topcoat-list__item__line-height
+    .member
+      .name
+        fullName
+      .image
+        img.medium src=image alt=fullName
+      .tagline
+        tagline
+      .bio
+        bio
