@@ -161,7 +161,7 @@ h1 span {
     height: 28px;
     line-height: 28px;
   }
-}
+}1
 
 h2 {
   margin: 0;
@@ -588,4 +588,12 @@ ul {
 .item-container-lg > .image img {
   max-width:400px;
   height:auto;
+}
+
+@media only screen and (min-device-width: 560px) and (max-device-width: 1136px) and (-webkit-min-device-pixel-ratio: 2) {
+    /* iPhone 5 only */
+    .item-container-lg > .image img {
+      max-width:200px;
+      height:auto;
+    }
 }

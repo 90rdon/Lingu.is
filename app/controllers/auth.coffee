@@ -5,8 +5,12 @@ authController = Ember.Controller.extend
     'member'
   ]
 
-  allowed: false
   currentMember: null
+  allowed: false
+
+  authChange: (->
+    if @get('currentMember') then @set('allowed', true) else @set('allowed', false)
+  ).observes('currentMember')
 
   init: ->
     self = @
@@ -14,8 +18,7 @@ authController = Ember.Controller.extend
     @authClient = new FirebaseSimpleLogin(dbRef, ((error, authUser) ->
       # --- error ---
       if error
-        alert 'Authentication failed: ' + error
-        self.set 'allowed', false
+        self.set('currentMember', null)
 
       # --- authenticated ---
       else if authUser
@@ -26,7 +29,7 @@ authController = Ember.Controller.extend
           
       # --- default ---
       else
-        self.set 'allowed', false
+        self.set('currentMember', null)
 
     ).bind(@))
 
@@ -98,15 +101,16 @@ authController = Ember.Controller.extend
   authenticateUser: (authUser, normalizeNewUser) ->
     self = @
     new Firebase App.FirebaseUri + '/profiles'
-      .startAt(authUser.uid)
       .endAt(authUser.uid)
+      .limit(1)
       .once 'value', (snapshot) ->
-        self.set('allowed', true)
         console.log 'snapshot = ' + snapshot.getPriority()
         if snapshot.val()
           snapshot.forEach (user) ->
             # self.compareSnapshots(user.val().profile, authUser)
-            self.set('currentMember', user.val())
+            memberRef = new Firebase App.FirebaseUri + '/members/' + user.val().memberId
+            memberRef.once 'value', (snapshot) ->
+              self.set('currentMember', snapshot.val())
         else
           self.createNewMember authUser, normalizeNewUser
 

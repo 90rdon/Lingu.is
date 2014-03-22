@@ -13,13 +13,21 @@ module.exports = [
         "clobbers": [
             "cordova.logger"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js",
+        "id": "org.apache.cordova.inappbrowser.inappbrowser",
+        "clobbers": [
+            "window.open"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
     "com.tokbox.cordova.opentok": "1.0.2",
-    "org.apache.cordova.console": "0.2.6"
+    "org.apache.cordova.console": "0.2.6",
+    "org.apache.cordova.inappbrowser": "0.3.3"
 }
 // BOTTOM OF METADATA
 });

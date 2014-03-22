@@ -56,6 +56,7 @@
 		DB35A82DFB314031BBB3CB7F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0569A00C04463B91AF1703 /* SystemConfiguration.framework */; };
 		E19DF3AAD28A4348B7C1BE94 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B56333ED3A94A6186AB4517 /* AudioToolbox.framework */; };
 		E6ECBED81E02415D8AC63973 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7397444A50A243BB85D47C7C /* CoreVideo.framework */; };
+		0316EF6737754381B651CF4F /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = B9D887DDF72247B6A5F5EDEA /* CDVInAppBrowser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +140,8 @@
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = "linguis-app/config.xml"; sourceTree = "<group>"; };
 		FCAE178562434AACA0DA9EEE /* OpenTokPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpenTokPlugin.m; path = com.tokbox.cordova.opentok/OpenTokPlugin.m; sourceTree = "<group>"; };
 		FCCB001FDF8146D0BE727C30 /* QuartzCore.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B9D887DDF72247B6A5F5EDEA /* CDVInAppBrowser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVInAppBrowser.m"; path = "org.apache.cordova.inappbrowser/CDVInAppBrowser.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		4995EB70E86B4BD3A46BC278 /* CDVInAppBrowser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVInAppBrowser.h"; path = "org.apache.cordova.inappbrowser/CDVInAppBrowser.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -293,6 +296,8 @@
 				ED8351C9192042E4B0242A8A /* OpenTokPlugin.h */,
 				871164272BA84E30ABE7F38A /* CDVLogger.m */,
 				687B21F4752A4EDEBF91E37F /* CDVLogger.h */,
+				B9D887DDF72247B6A5F5EDEA /* CDVInAppBrowser.m */,
+				4995EB70E86B4BD3A46BC278 /* CDVInAppBrowser.h */,
 			);
 			name = Plugins;
 			path = "linguis-app/Plugins";
@@ -495,6 +500,7 @@
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				584F94A6E64E43AB868D9A58 /* OpenTokPlugin.m in Sources */,
 				C9212EB76E4B41349010CE43 /* CDVLogger.m in Sources */,
+				0316EF6737754381B651CF4F /* CDVInAppBrowser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
