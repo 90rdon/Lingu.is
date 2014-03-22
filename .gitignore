@@ -8,6 +8,7 @@
 /node_modules
 /vendor/*
 !/vendor/loader.js
+!/vendor/firebase-simple-login.js
 
 # misc
 /.sass-cache
@@ -42,8 +43,8 @@ npm-debug.log
 *.xpressive_config
 
 # cordova
-/cordova/www/
-/cordova/platforms/
+/cordova/www/*
+/cordova/platforms/*
 
 # OS X
 .DS_Store

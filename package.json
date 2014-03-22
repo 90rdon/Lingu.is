@@ -1,6 +1,6 @@
 {
   "name": "lingu.is",
-  "namespace": "appkit",
+  "namespace": "linguis",
   "APIMethod": "proxy",
   "proxyURL": "http://0.0.0.0:3333",
   "mongodbUri": "mongodb://guest:linguisguest@ds033639.mongolab.com:33639/heroku_app22711269",

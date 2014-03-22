@@ -1,8 +1,10 @@
-# attr      = DS.attr
-# hasMany   = DS.hasMany
-# belongsTo = DS.belongsTo
+attr      = DS.attr
+hasMany   = DS.hasMany
+belongsTo = DS.belongsTo
 
-# profile = DS.Model.extend
+profile = DS.Model.extend
+  content:    attr()
+  member:     belongsTo('member')
 #   name:     attr()
 #   from:     attr()
 #   to:       attr()

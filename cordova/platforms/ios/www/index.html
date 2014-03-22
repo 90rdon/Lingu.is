@@ -12,7 +12,7 @@
   <meta name='description' content=''>
   <!--<meta name='viewport' content='width=device-width, initial-scale=1'>-->
 
-  <link rel="stylesheet" href="assets/1e244d46.app.min.css">
+  <link rel="stylesheet" href="assets/b151f7e6.app.min.css">
 
   <link rel="stylesheet" href="assets/vendor.min.css">
 
@@ -20,9 +20,9 @@
 
   <script src="assets/acb720d0.config.min.js"></script>
 
-  <script src="assets/4a4b6d23.vendor.min.js"></script>
+  <script src="assets/1482499a.vendor.min.js"></script>
 
-  <script src="assets/af69359b.app.min.js"></script>
+  <script src="assets/1742aa02.app.min.js"></script>
 
 </head>
 <body>
@@ -35,11 +35,11 @@
   <![endif]-->
 
   <script type='text/javascript' src='cordova.js'></script>
-  <script type='text/javascript' src='cordova_plugins.js'></script>
-  <!-- <script type='text/javascript' src='opentok.js'></script> -->
+  <!-- <script type='text/javascript' src='cordova_plugins.js'></script>
+  <script type='text/javascript' src='opentok.js'></script> -->
   <script>
       $(function () {
-        App = require('appkit/app')['default'].create();
+        App = require('linguis/app')['default'].create();
         window.addEventListener('load', function() {
             new FastClick(document.body);
         }, false);
@@ -48,6 +48,7 @@
             // A mobile device is being used
         } else {
             //If a mobile device is not being used then lets kick off the app
+            console.log('Phone Gap -INIT-');
             App.phoneGapApp.onDeviceReady();
         }
       })

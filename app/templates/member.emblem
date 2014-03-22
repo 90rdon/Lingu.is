@@ -1,4 +1,3 @@
 .topcoat-list__container
   .topcoat-list__item
-    .topcoat-grid__row
-      member-item member=this
+    member-item member=this

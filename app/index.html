@@ -13,7 +13,6 @@
   <!--<meta name='viewport' content='width=device-width, initial-scale=1'>-->
 
   <!-- build:css(tmp/result) assets/app.min.css -->
-  <link rel='stylesheet' href='/assets/app.css'>
   <link rel='stylesheet' href='/assets/linguis.css'>
   <link rel='stylesheet' href='/assets/topcoat-ios7.css'>
   <!-- endbuild -->
@@ -21,12 +20,11 @@
   <!-- build:css(tmp/result) assets/vendor.min.css -->
     
     <!-- @if dist=false -->
-    <!--<link rel='stylesheet' href='/vendor/topcoat/css/topcoat-mobile-light.css'>-->
+    <link rel='stylesheet' href='/vendor/flexbox-grid/flexbox-grid.css'>
     <!-- @endif --><!-- @if dist=true -->
-    <!--<link rel='stylesheet' href='/vendor/topcoat/css/topcoat-mobile-light.min.css'>-->
+    <link rel='stylesheet' href='/vendor/flexbox-grid/flexbox-grid.min.css'>
     <!-- @endif -->
 
-    <link rel='stylesheet' href='/vendor/flexbox-grid/flexbox-grid.styl'>
     <link rel='stylesheet' href='/vendor/topcoat-effeckt/css/effeckt.autoprefixed.css'>
     <link rel='stylesheet' href='/vendor/icomatic/kit/icomatic.css' />
 
@@ -73,6 +71,7 @@
     <script src='/vendor/swag/lib/swag.min.js'></script>
     <!-- @endif -->
 
+    <script src="/vendor/firebase-simple-login.js"></script>
     <script src='/vendor/loader.js'></script>
     <script src='/vendor/ember-resolver/dist/ember-resolver.js'></script>
     <script src='/vendor/ic-ajax/main.js'></script>
@@ -129,11 +128,11 @@
 
   <!-- @if tests=false -->
   <script type='text/javascript' src='cordova.js'></script>
-  <script type='text/javascript' src='cordova_plugins.js'></script>
-  <!-- <script type='text/javascript' src='opentok.js'></script> -->
+  <!-- <script type='text/javascript' src='cordova_plugins.js'></script>
+  <script type='text/javascript' src='opentok.js'></script> -->
   <script>
       $(function () {
-        App = require('appkit/app')['default'].create();
+        App = require('linguis/app')['default'].create();
         window.addEventListener('load', function() {
             new FastClick(document.body);
         }, false);
@@ -142,6 +141,7 @@
             // A mobile device is being used
         } else {
             //If a mobile device is not being used then lets kick off the app
+            console.log('Phone Gap -INIT-');
             App.phoneGapApp.onDeviceReady();
         }
       })

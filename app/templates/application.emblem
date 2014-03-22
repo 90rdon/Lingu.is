@@ -1,23 +1,48 @@
 .topcoat-navigation-bar.effeckt
   .topcoat-navigation-bar__item.left.quarter
     a href='/'
-      h1.topcoat-navigation-bar__title.center Lingu.is
+      .topcoat-navigation-bar__title.center
+        span.icomatic.icomatic-lg home
   
-  .topcoat-navigation-bar__item.center.half
-    view Em.TextField class='topcoat-search-input icomatic' type='search' valueBinding='controllers.index.search' placeholder='search'
+  .topcoat-navigation-bar__item.center.half.veritcal-middle
+    view Em.TextField class='topcoat-search-input' type='search' valueBinding='controllers.index.search' placeholder='search'
 
   .topcoat-navigation-bar__item.center.quarter
     a#off-screen-nav-button.topcoat-icon-button-quiet.off-screen-nav-button data-effeckt='effeckt-off-screen-nav-right-squeeze'
-      span.user-icon.icomatic user
+      if auth.allowed
+        span.user-icon.icomatic unlock
+      else
+        span.user-icon.icomatic lock
 
 view 'effeckt-container'
   view 'effeckt-off-screen-nav'
     nav#effeckt-off-screen-nav.effeckt-off-screen-nav.topcoat-list__container style='display:block;'      
       .offscreen-nav-container
-        h4.topcoat-list__header.nav-header 
-          a#effeckt-off-screen-nav-close.effeckt-off-screen-nav-close href='#' x
+        h4.topcoat-list__header.off-screen-nav-header.center
+          span.item-container
+            a#effeckt-off-screen-nav-close.icomatic.icomatic-lg cancel
+
+        ul.topcoat-list.offscreen-nav-list
+          if auth.allowed
+            li.topcoat-list__item.center
+              .col-xs-auto.topcoat-list__item__line-height.item-container
+                a{action 'logout'}
+                  span.icomatic.icomatic-lg unlock
+          else
+            li.topcoat-list__item.center
+              .col-xs-auto.topcoat-list__item__line-height.item-container
+                  a{action 'login' 'twitter'}
+                    span.icomatic.icomatic-lg twitter
+            li.topcoat-list__item.center
+              .col-xs-auto.topcoat-list__item__line-height.item-container
+                  a{action 'login' 'github'}
+                    span.icomatic.icomatic-lg github
+            li.topcoat-list__item.center
+              .col-xs-auto.topcoat-list__item__line-height.item-container
+                  a{action 'login' 'facebook'}
+                    span.icomatic.icomatic-lg facebook
 
     .off-screen-nav-cover
 
-    .page
+    #page-wrap.page-wrap.page
       outlet

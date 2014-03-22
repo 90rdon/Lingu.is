@@ -17,7 +17,6 @@ phoneGapApp = {
   # 'receivedEvent'
   # function, we must explicity call 'app.receivedEvent(...);'
   onDeviceReady: ->
-    # console.log 'PhoneGap binding...'
     phoneGapApp.receivedEvent 'deviceready'
 
     # sessionConnectedHandler = (event) ->
@@ -46,6 +45,7 @@ phoneGapApp = {
     
   # Update DOM on a Received Event
   receivedEvent: (id) ->
+    # console.log 'PhoneGap binding to device uuid = ' + window.device.uuid
     # parentElement = document.getElementById(id)
     # listeningElement = parentElement.querySelector('.listening')
     # receivedElement = parentElement.querySelector('.received')

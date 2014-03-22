@@ -1,4 +1,4 @@
 ApplicationAdapter = DS.FirebaseAdapter.extend
-  firebase: new Firebase 'https://linguis.firebaseio.com/'
+  firebase: new Firebase App.FirebaseUri
 
 `export default ApplicationAdapter`

@@ -1,10 +1,12 @@
 with member
-  .topcoat-list__item__line-height
-    .member
-      .name
-        fullName
-      .image
-        img.medium src=image alt=fullName
+  .row
+    .col-xs-auto.topcoat-list__item__line-height.item-container-lg
+      h2.name
+        displayName
+      if image
+        .image
+          img.medium src=image alt=displayName
+      
       .tagline
         tagline
       .bio
