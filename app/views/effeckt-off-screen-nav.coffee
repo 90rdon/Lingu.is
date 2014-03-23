@@ -6,17 +6,13 @@ selfView = Ember.View.extend
     @set('nav', $('#effeckt-off-screen-nav'))
     @set('closeButton', $('#effeckt-off-screen-nav-close'))
     @bindUIActions()
-    return
 
   bindUIActions: ->
     self = @
-    $('#off-screen-nav-button, #effeckt-off-screen-nav-close').on 'click', ->
+    $('#off-screen-nav-button, #effeckt-off-screen-nav-close, #member-nav-login').on 'click', ->
       type = $(this).data('effeckt')
       threedee = $(this).data('threedee')
       self.toggleNav type, threedee
-      return
-
-    return
 
   toggleNav: (type, threedee) ->
     self = @
@@ -27,7 +23,6 @@ selfView = Ember.View.extend
       $('html').addClass 'md-perspective'  if threedee
       setTimeout (->
         self.nav.addClass 'effeckt-off-screen-nav-show'
-        return
       ), 500
     
     # Hide
@@ -39,9 +34,15 @@ selfView = Ember.View.extend
         blah = self.nav.width()
         self.nav.show()
         $('html').removeClass 'md-perspective'
-        return
       ), 500
-    return
 
+  actions:
+    login: (provider) ->
+      @toggleNav(undefined, undefined)
+      @get('controller.auth').send('login', provider)
+
+    logout: ->
+      @toggleNav(undefined, undefined)
+      @get('controller.auth').send('logout')
 
 `export default selfView`

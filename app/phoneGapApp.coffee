@@ -19,6 +19,9 @@ phoneGapApp = {
   onDeviceReady: ->
     phoneGapApp.receivedEvent 'deviceready'
 
+    if parseFloat(window.device.version) is 7.0
+      document.body.style.marginTop = '20px'
+
     # sessionConnectedHandler = (event) ->
     #   session.publish publisher
     #   subscribeToStreams event.streams

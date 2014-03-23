@@ -101,8 +101,8 @@ authController = Ember.Controller.extend
   authenticateUser: (authUser, normalizeNewUser) ->
     self = @
     new Firebase App.FirebaseUri + '/profiles'
+      .startAt(authUser.uid)
       .endAt(authUser.uid)
-      .limit(1)
       .once 'value', (snapshot) ->
         console.log 'snapshot = ' + snapshot.getPriority()
         if snapshot.val()

@@ -47,4 +47,5 @@ indexController = Ember.ObjectController.extend
     @set('memberList', result)
   ).property('filteredContent')
 
+
 `export default indexController`
