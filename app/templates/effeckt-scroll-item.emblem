@@ -1,0 +1,4 @@
+li.topcoat-list__item
+  with memberList
+    a href='#/{{unbound id}}'
+      member-item member=this

@@ -1,14 +1,18 @@
 .topcoat-navigation-bar.effeckt
   .topcoat-navigation-bar__item.left.quarter
-    a href='/'
+    a href='#'
       .topcoat-navigation-bar__title.center
-        span.icomatic.icomatic-lg home
+        if auth.allowed
+          span
+            auth.currentMember.displayName
+        else
+          span.icomatic.icomatic-lg home
   
   .topcoat-navigation-bar__item.center.half.veritcal-middle
     view Em.TextField class='topcoat-search-input' type='search' valueBinding='controllers.index.search' placeholder='search'
 
   .topcoat-navigation-bar__item.center.quarter
-    a#off-screen-nav-button.topcoat-icon-button-quiet.off-screen-nav-button data-effeckt='effeckt-off-screen-nav-right-squeeze'
+    a#off-screen-nav-button.topcoat-icon-button-quiet.off-screen-nav-button data-effeckt='effeckt-off-screen-nav-top-overlay'
       if auth.allowed
         span.user-icon.icomatic unlock
       else
