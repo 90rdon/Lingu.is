@@ -12,6 +12,16 @@ App = Ember.Application.extend
   Resolver:                 Resolver['default']
 
 App.reopen
+  # customEvents:
+  #   swipeLeft:              'swipeLeft'
+  #   swipeRight:             'swipeRight'
+  #   swipeLeftTwoFinger:     'swipeLeftTwoFinger'
+  #   swipeRightTwoFinger:    'swipeRightTwoFinger'
+  #   dragDown:               'dragDown'
+  #   dragUp:                 'dragUp'
+  #   dragDownTwoFinger:      'dragDownTwoFinger'
+  #   dragUpTwoFinger:        'dragUpTwoFinger'
+
   phoneGapApp:              phoneGapApp
   FirebaseUri:              'https://linguis.firebaseio.com/'
 

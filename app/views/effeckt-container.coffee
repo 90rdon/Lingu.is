@@ -7,8 +7,6 @@ effecktContainer = Ember.View.extend
       self.animationEndEventName = self.animationEndEventNames[Modernizr.prefixed('animation')]
       return
 
-    return
-
   animationEndEventNames:
     WebkitAnimation: 'webkitAnimationEnd'
     OAnimation: 'oAnimationEnd'
@@ -20,5 +18,12 @@ effecktContainer = Ember.View.extend
     OTransition: 'oTransitionEnd'
     msTransition: 'MSTransitionEnd'
     transition: 'transitionend'
+
+  gestures:
+    swipeLeft: (event) ->
+      # do something like send an event down the controller/route chain
+      @get('controller').transitionToRoute('index')
+
+      false
 
 `export default effecktContainer`

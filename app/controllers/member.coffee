@@ -1,5 +1,3 @@
-
-
 memberController = Ember.ObjectController.extend()
 #   needs: [
 #     'index'
