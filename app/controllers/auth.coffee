@@ -7,6 +7,7 @@ authController = Ember.Controller.extend
 
   currentMember: null
   allowed: false
+  session: null
 
   authChange: (->
     if @get('currentMember') then @set('allowed', true) else @set('allowed', false)
@@ -15,17 +16,17 @@ authController = Ember.Controller.extend
   init: ->
     self = @
     dbRef = new Firebase App.FirebaseUri
-    @authClient = new FirebaseSimpleLogin(dbRef, ((error, authUser) ->
+    @authClient = new FirebaseSimpleLogin(dbRef, ((error, identity) ->
       # --- error ---
       if error
         self.set('currentMember', null)
 
-      # --- authenticated ---
-      else if authUser
-        switch authUser.provider
-          when 'twitter' then self.authenticateUser authUser, self.normalizeTwitterUser
-          when 'github' then self.authenticateUser authUser, self.normalizeGithubUser
-          when 'facebook' then self.authenticateUser authUser, self.normalizeFacebookUser
+      # --- authenticate ---
+      else if identity
+        switch identity.provider
+          when 'twitter' then self.authenticateUser identity, self.normalizeTwitterUser
+          when 'github' then self.authenticateUser identity, self.normalizeGithubUser
+          when 'facebook' then self.authenticateUser identity, self.normalizeFacebookUser
           
       # --- default ---
       else
@@ -66,7 +67,7 @@ authController = Ember.Controller.extend
     first:            ''
     last:             ''
     displayName:      githubUser.displayName || githubUser.username || ''
-    name:             githubUser.name || git
+    name:             githubUser.name || githubUser.username
     tagline:          ''
     bio:              githubUser.bio || ''
     image:            githubUser.avatar_url
@@ -98,38 +99,45 @@ authController = Ember.Controller.extend
     url:              facebookUser.link          
 
 
-  authenticateUser: (authUser, normalizeNewUser) ->
+  authenticateUser: (identity, normalizeNewUser) ->
     self = @
+
+    # tasks to run before finalizing authtentication
+    finalize = (member) ->
+      self.set('currentMember', member)
+      self.createSession(identity, member)
+
     new Firebase App.FirebaseUri + '/profiles'
-      .endAt(authUser.uid)
-      .limit(1)
+      .startAt(identity.uid)    
+      .endAt(identity.uid)
       .once 'value', (snapshot) ->
-        console.log 'snapshot = ' + snapshot.getPriority()
         if snapshot.val()
           snapshot.forEach (user) ->
-            # self.compareSnapshots(user.val().profile, authUser)
+            # self.compareSnapshots(user.val().profile, identity)
             memberRef = new Firebase App.FirebaseUri + '/members/' + user.val().memberId
             memberRef.once 'value', (snapshot) ->
-              self.set('currentMember', snapshot.val())
+              finalize(snapshot.val())
         else
-          self.createNewMember authUser, normalizeNewUser
+          self.createNewMember(identity, normalizeNewUser).then (newMember) ->
+            finalize(newMember)
 
   createNewMember: (user, normalizeNewUser) ->
-    self = @
-    newMember = normalizeNewUser user
-    
-    memberRef = new Firebase App.FirebaseUri + '/members/' + newMember.id
-    profileRef = new Firebase App.FirebaseUri + '/profiles/'
-
-    console.log 'priority before = ' + memberRef
-    memberRef.setWithPriority newMember, newMember.displayName || newMember.name || '', (err) ->
-      profileRef.push
-        memberId:     newMember.id
-        profile:      user
-        '.priority':  user.uid
+    new Promise (resolve, reject) ->
+      self = @
+      newMember = normalizeNewUser user
       
-    self.set('currentMember', newMember)
+      memberRef = new Firebase App.FirebaseUri + '/members/' + newMember.id
+      profileRef = new Firebase App.FirebaseUri + '/profiles/'
 
+      memberRef.setWithPriority newMember, newMember.displayName || newMember.name || '', (err) ->
+        reject err      if err
+        profileRef.push
+          memberId:     newMember.id
+          profile:      user
+          '.priority':  user.uid
+
+        resolve newMember
+      
   # compareSnapshots: (previousSnapshot, currentSnapshot) ->
   #   # ** todo - do a deep compare of the objects to find diffs
   #   workingset = Ember.ArrayProxy.create
@@ -139,9 +147,22 @@ authController = Ember.Controller.extend
   #   null 
 
 
-
   updateProfile: (user, normalizeNewUser) ->
     user
+
+  createSession: (identity, member) ->
+
+    sessionRef = new Firebase App.FirebaseUri + '/session'
+    sessionRef.push
+      event: 'login'
+      timestamp: Firebase.ServerValue.TIMESTAMP
+      memberId: member.id
+      device: 'test'
+      ip: '0.0.0.0'
+      meta: 'test'
+      data: 'test'
+
+    @set('session', sessionRef)
 
   login: (provider) ->
     @authClient.login provider
