@@ -1,10 +1,10 @@
 ApplicationRoute = Ember.Route.extend
   actions:
     login: (provider) ->
-      @get('auth').login(provider)
+      @get('authentication').login(provider)
 
     logout: ->
-      @get('auth').logout()
+      @get('authentication').logout()
 
 
 # Ember.Route.reopen getParentRoute: ->

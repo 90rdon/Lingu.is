@@ -1,4 +1,4 @@
-memberController = Ember.ObjectController.extend
+memberController = Ember.ObjectController.extend()
 #   needs: [
 #     'index'
 #   ]
@@ -16,7 +16,5 @@ memberController = Ember.ObjectController.extend
 #     console.log isTrue
 #     isTrue
 #   ).property('search', 'profiles')
-
-  session: null
 
 `export default memberController`

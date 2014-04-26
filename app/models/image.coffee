@@ -1,8 +1,9 @@
-attr      = DS.attr
-hasMany   = DS.hasMany
-belongsTo = DS.belongsTo
+attr      = FP.attr
+hasOne    = FP.hasOne
+hasMany   = FP.hasMany
+belongsTo = FP.belongsTo
 
-image = DS.Model.extend
+image     = FP.Model.extend
   # desc:     attr()
   uri:      attr()
   member:   belongsTo('member')

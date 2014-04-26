@@ -1,8 +1,9 @@
-attr      = DS.attr
-hasMany   = DS.hasMany
-belongsTo = DS.belongsTo
+attr      = FP.attr
+hasOne    = FP.hasOne
+hasMany   = FP.hasMany
+belongsTo = FP.belongsTo
 
-member    = DS.Model.extend
+member    = FP.Model.extend
   first:            attr()
   last:             attr()
   displayName:      attr()
@@ -14,9 +15,9 @@ member    = DS.Model.extend
   followers_count:  attr()
   friends_count:    attr()
   url:              attr()
+  createdOn:        attr('date', default: -> new Date())
 
-  # images:     hasMany('image', { embedded: true })
-  # profiles:   hasMany('profile', { embedded: true })
+  profiles:         hasMany('profile', embedded: false)
 
   fullName: (->
     first   = @get('first') || ''
@@ -25,5 +26,7 @@ member    = DS.Model.extend
     return first + ' ' + last
   ).property('first', 'last')
 
+member.reopenClass
+  firebasePath: 'member'
   
 `export default member`

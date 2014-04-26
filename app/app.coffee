@@ -1,6 +1,11 @@
-`import Resolver from 'ember/resolver'`
-`import phoneGapApp from 'linguis/phoneGapApp'`
-`import auth from 'linguis/controllers/auth'`
+`import Resolver        from 'ember/resolver'`
+`import phoneGapApp     from 'linguis/phoneGapApp'`
+`import authentication  from 'linguis/initializers/authentication'`
+# `import store           from 'linguis/initializers/store'`
+`import session         from 'linguis/initializers/session'`
+
+Ember.Application.initializer(authentication)
+Ember.Application.initializer(session)
 
 App = Ember.Application.extend
   LOG_ACTIVE_GENERATION:    true
@@ -12,22 +17,10 @@ App = Ember.Application.extend
   Resolver:                 Resolver['default']
 
 App.reopen
-  # customEvents:
-  #   swipeLeft:              'swipeLeft'
-  #   swipeRight:             'swipeRight'
-  #   swipeLeftTwoFinger:     'swipeLeftTwoFinger'
-  #   swipeRightTwoFinger:    'swipeRightTwoFinger'
-  #   dragDown:               'dragDown'
-  #   dragUp:                 'dragUp'
-  #   dragDownTwoFinger:      'dragDownTwoFinger'
-  #   dragUpTwoFinger:        'dragUpTwoFinger'
-
   phoneGapApp:              phoneGapApp
-  FirebaseUri:              'https://linguis.firebaseio.com/'
+  firebaseUri:              'https://linguis.firebaseio.com/'
 
   ready: ->
-    @register 'main:auth', auth
-    @inject   'route', 'auth', 'main:auth'
-    @inject   'controller', 'auth', 'main:auth'
+    @__container__.lookup('store:main').set('firebaseRoot', @get('firebaseUri'))
 
 `export default App`
