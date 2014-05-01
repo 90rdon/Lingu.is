@@ -1,20 +1,41 @@
-memberController = Ember.ObjectController.extend()
-#   needs: [
-#     'index'
-#   ]
+`import NormalizeAccount  from 'linguis/utils/auth/normalize-account'`
 
-#   search: (->
-#     @get('controllers.index.search')
-#   ).property()
+memberController = Ember.ObjectController.extend
+  needs: [
+    'profile'
+  ]
 
-#   searchMatched: (->
-#     regexp = new RegExp(@get('search'))
-#     profiles = @get('profiles')
-#     isTrue = profiles.some (profile) ->
-#       regexp.test profile.get('to')
-#     # @get('profiles').anyBy('to', @get('search'))
-#     console.log isTrue
-#     isTrue
-#   ).property('search', 'profiles')
+  init: ->
+    self = @
+    @set('store', App.__container__.lookup('store:main'))
+
+  normalize: (profileRef) ->
+    new Promise (resolve) ->
+
+      switch profileRef.toFirebaseJSON().provider
+        when 'twitter'    then resolve(NormalizeAccount.Twitter(profileRef))
+        when 'github'     then resolve(NormalizeAccount.Github(profileRef))
+        when 'facebook'   then resolve(NormalizeAccount.Facebook(profileRef))
+
+  createMember: (identity) ->
+    self = @
+    new Promise (resolve, reject) ->
+
+      self.get('controllers.profile').createProfile(identity).then (profileRef) ->
+        self.normalize(profileRef).then (user) ->
+          user.set('id', profileRef.toFirebaseJSON().uuid)
+          self.store.createRecord('member', user).save().then (memberRef) ->
+            resolve(memberRef)
+          , (error) ->
+            reject(error)
+
+  findRefByUuid: (uuid) ->
+    self = @
+    new Promise (resolve, reject) ->
+
+      self.store.fetch('member',  uuid).then (memberRef) ->
+        resolve(memberRef)
+      , (error) ->
+        reject(error)
 
 `export default memberController`

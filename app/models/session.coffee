@@ -4,6 +4,7 @@ hasMany   = FP.hasMany
 belongsTo = FP.belongsTo
 
 session   = FP.Model.extend
+  uuid:             attr()
   status:           attr()
   device:           attr()
   ip:               attr()
@@ -11,12 +12,9 @@ session   = FP.Model.extend
   data:             attr()
   timestamp:        attr('date', default: -> new Date())
 
-  # TODOs: Fix this back to hasOne relationship
-  members:          hasMany('member', embedded: false)
-
-  # priority: (->
-  #   @get('uuid')
-  # ).property('uuid')
+  priority: (->
+    @get('uuid')
+  ).property('uuid')
 
 session.reopenClass
   firebasePath: 'session'

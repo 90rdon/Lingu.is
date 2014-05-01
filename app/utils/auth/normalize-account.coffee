@@ -3,20 +3,20 @@ normalizeAccount =
   # Twitter
   # ----------------------------------------
   Twitter: (profileRef) ->
-    profile = profileRef.toFirebaseJSON() 
+    profile = profileRef.toFirebaseJSON().identity
     user = Ember.Object.create
-      id:               profile.uuid
+      # id:               profile.uuid
       first:            ''
       last:             ''
-      displayName:      profile.identity.displayName || ''
-      name:             profile.identity.name
-      tagline:          profile.identity.description
-      bio:              ''
-      image:            profile.identity.profile_image_url
-      favourites_count: profile.identity.favourites_count
-      followers_count:  profile.identity.followers_count
-      friends_count:    profile.identity.friends_count
-      url:              profile.identity.url
+      displayName:      profile.screen_name
+      name:             profile.name
+      tagline:          profile.description
+      bio:              profile.description
+      image:            profile.profile_image_url
+      favourites_count: profile.favourites_count
+      followers_count:  profile.followers_count
+      friends_count:    profile.friends_count
+      url:              profile.url
       profiles:         []
       
     user.get('profiles').addObject(profileRef)
@@ -27,21 +27,21 @@ normalizeAccount =
   # Github
   # ----------------------------------------
   Github: (profileRef) ->
-    profile = profileRef.toFirebaseJSON() 
+    profile = profileRef.toFirebaseJSON().identity
     user = Ember.Object.create
-      id:               profile.uuid
+      # id:               profile.uuid
       first:            ''
       last:             ''
-      displayName:      profile.identity.displayName || profile.identity.username || ''
-      name:             profile.identity.name || profile.identity.username
+      displayName:      profile.login || ''
+      name:             profile.login || ''
       tagline:          ''
-      bio:              profile.identity.bio || ''
-      image:            profile.identity.avatar_url
+      bio:              ''
+      image:            profile.avatar_url
       favourites_count: 0
-      followers_count:  profile.identity.followers
+      followers_count:  profile.followers
       friends_count:    0
-      emails:           profile.identity.emails
-      url:              profile.identity.url
+      emails:           profile.emails
+      url:              profile.url
       profiles:         []
 
     user.get('profiles').addObject(profileRef)
@@ -52,13 +52,13 @@ normalizeAccount =
   # facebook
   # ----------------------------------------
   Facebook: (profileRef) ->
-    profile = profileRef.toFirebaseJSON() 
+    profile = profileRef.toFirebaseJSON().identity
     user = Ember.Object.create
-      id:               profile.uuid
-      first:            profile.identity.first_name || ''
-      last:             profile.identity.last_name || ''
-      displayName:      profile.identity.displayName || profile.identity.username || ''
-      name:             profile.identity.name || ''
+      # id:               profile.uuid
+      first:            profile.first_name || ''
+      last:             profile.last_name || ''
+      displayName:      profile.name || ''
+      name:             profile.username || ''
       tagline:          ''
       bio:              ''
       image:            0
@@ -66,11 +66,10 @@ normalizeAccount =
       followers_count:  0
       friends_count:    0
       emails:           ''
-      url:              profile.identity.link
+      url:              profile.link
       profiles:         []
 
     user.get('profiles').addObject(profileRef)
     user
-
 
 `export default normalizeAccount`

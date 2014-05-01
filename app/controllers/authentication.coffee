@@ -1,12 +1,13 @@
-`import UUID              from 'linguis/utils/auth/uuid'`
-`import NormalizeAccount  from 'linguis/utils/auth/normalize-account'`
-
 authenticationController = Ember.Controller.extend
   needs: [
     'session'
+    'profile'
+    'member'
   ]
 
-  session: null
+  allowed: (->
+    @get('controllers.session.content')?
+  ).property('controllers.session.content')
 
   init: ->
     @_super()
@@ -34,86 +35,40 @@ authenticationController = Ember.Controller.extend
 
     ).bind(@))
 
+  # --- find the member ---
+
   # --- authenticating to our app now ---
   authenticate: (identity) ->
     self = @
     new Promise (resolve, reject) ->
 
-      # Find the profile by uid
-      self.store.fetch 'profile', 
-        startAt:  identity.uid
-        endAt:    identity.uid
-      .then (profiles) ->
+      self.get('controllers.profile').findAll(identity.uid).then (profiles) ->
 
         if profiles.get('length') is 0
-
           # New Member
-          self.createMember(identity).then (memberRef) ->
+          self.get('controllers.member').createMember(identity).then (memberRef) ->
             resolve(memberRef)
         else
-
           # Existing Member
           profile = profiles.get('lastObject').toFirebaseJSON()
-          self.store.fetch('member',  profile.uuid).then (memberRef) ->
+          self.get('controllers.member').findRefByUuid(profile.uuid).then (memberRef) ->
             resolve(memberRef)
-
-      # Error
       , (error) ->
-        # self.createMember(identity).then (member) ->
-        #   resolve(member.toFirebaseJSON())
         reject(error)
 
   authorize: (memberRef) ->
-    self = @
-    @get('controllers.session').start(memberRef).then (sessionRef) ->
-      self.set('session', sessionRef.toFirebaseJSON())
-
+    @get('controllers.session').send('start', memberRef)
+    
   invalidate: ->
-    @set('session', null)
-
-
-  login: (provider) ->
-    @authClient.login provider
-
-  logout: ->
-    @authClient.logout()
-
-  
-  # createProfile: (identity) ->
-  #   self = @
-  #   new Promise (resolve) ->
-
-  #     uuid = UUID.createUuid()
-  #     self.store.createRecord 'profile',
-  #       identity:     identity
-  #       uid:          identity.uid
-  #       uuid:         uuid
-  #       provider:     identity.provider
-  #     .save().then (profileRef) ->
-  #       resolve(profileRef)
-      
-  normalize: (profile) ->
-    new Promise (resolve) ->
-
-      switch profile.toFirebaseJSON().provider
-        when 'twitter'  then resolve(NormalizeAccount.Twitter(profile))
-        when 'github'   then resolve(NormalizeAccount.Github(profile))
-        when 'twitter'  then resolve(NormalizeAccount.Facebook(profile))
-
-  createMember: (identity) ->
     self = @
-    new Promise (resolve, reject) ->
+    @get('controllers.session').send('stop').then ->
+      self.authClient.logout()
 
-      self.store.createRecord 'profile',
-        identity:     identity
-        uid:          identity.uid
-        uuid:         UUID.createUuid()
-        provider:     identity.provider
-      .save().then (profileRef) ->
-        self.normalize(profileRef).then (user) ->
-          self.store.createRecord('member', user).save().then (memberRef) ->
-            resolve(memberRef)
-          , (error) ->
-            reject(error)
+  actions:
+    login: (provider) ->
+      @authClient.login provider
+
+    logout: ->
+      @invalidate()
 
 `export default authenticationController`

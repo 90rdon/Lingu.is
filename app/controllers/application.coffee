@@ -1,7 +1,7 @@
 applicationController = Ember.ObjectController.extend
   needs: [
     'index'
-    # 'history'
+    'authentication'
   ]
 
 `export default applicationController`
