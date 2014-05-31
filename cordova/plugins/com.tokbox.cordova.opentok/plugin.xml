@@ -3,7 +3,7 @@
     id="com.tokbox.cordova.opentok"
     version="1.0.2">
 
-    <name>OpenTok Cordova Plugin</name>
+    <name>OpenTokCordovaPlugin</name>
     <description>Add live video streaming to your Cordova Application</description>
     <license>Apache 2.0</license>
     <keywords>opentok,tokbox</keywords>
@@ -15,17 +15,18 @@
         target-dir="src/com/tokbox/cordova/" />
 
       <config-file target="AndroidManifest.xml" parent="/manifest">
-        <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="19" />
+        <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="17" />
         <uses-permission android:name="android.permission.CAMERA" />
         <uses-permission android:name="android.permission.INTERNET" />
         <uses-permission android:name="android.permission.RECORD_AUDIO" />
         <uses-permission android:name="android.permission.WAKE_LOCK" />
+        <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
         <uses-feature android:name="android.hardware.camera" android:required="true" />
         <uses-feature android:name="android.hardware.autofocus" android:required="true" />
       </config-file>
 
       <!-- copy opentok sdk -->
-      <source-file src="src/android/libs/opentok-android-sdk-2.0.jar" target-dir="libs/" />
+      <source-file src="src/android/libs/opentok-android-sdk-2.2.jar" target-dir="libs/" />
       <source-file src="src/android/libs/armeabi/libopentok.so" target-dir="libs/armeabi" />
 
       <config-file target="config.xml" parent="/*">
@@ -40,9 +41,8 @@
     <platform name="ios">
       <asset src="www/opentok.js" target="opentok.js" />
 
-      <header-file src="src/OpenTokPlugin.h" />
-      <source-file src="src/OpenTokPlugin.m" />
-      <resource-file src="src/ios/Opentok.framework/Resources/opentok.bundle" />
+      <header-file src="src/ios/OpenTokPlugin.h" />
+      <source-file src="src/ios/OpenTokPlugin.m" />
 
       <framework src="src/ios/Opentok.framework" custom="true" />
       <framework src="Foundation.framework" />
@@ -59,6 +59,8 @@
       <framework src="CoreTelephony.framework" />
       <framework src="libstdc++.6.0.9.dylib" />
       <framework src="libz.dylib" />
+      <framework src="libsqlite3.dylib" />
+      <framework src="libxml2.dylib" />
 
       <!-- Adopts project's config.xml to include the OpenTokPlugin and domain whitelists -->
       <config-file target="config.xml" parent="/*/plugins">

@@ -71,13 +71,13 @@ module.exports = (grunt) ->
   # Generate the production version
   # ------------------
   grunt.registerTask 'dist', 'Build a minified & production-ready version of your app.', [
+    'clean:cordova'
     'clean:dist'
     'build:dist'
     'copy:assemble'
-    
     # 'copy:fontsToResult',
     'createDistVersion'
-    'copy:cordova'
+    'copy:cordovaDist'
   ]
   
   # Default Task
@@ -92,7 +92,6 @@ module.exports = (grunt) ->
     grunt.task.run [
       'clean:debug'
       'build:debug'
-      expressServerTask
       'watch'
     ]
 
@@ -100,6 +99,22 @@ module.exports = (grunt) ->
     'dist'
     'expressServer:dist:keepalive'
   ]
+
+  # Cordova
+  # -------------------
+  grunt.registerTask 'cordova', 'Run Cordova server in development mode, auto-rebuilding when files change.', (proxyMethod) ->
+    expressServerTask = 'expressServer:debug'
+    expressServerTask += ':' + proxyMethod  if proxyMethod
+    grunt.task.run [
+      'clean:cordova'
+      'clean:debug'
+      'build:debug'
+      'copy:assemble'
+      'copy:cordovaDebug'
+      'shell:prepare'
+      'shell:serve'
+      'watch'
+    ]
   
   # Testing
   # -------

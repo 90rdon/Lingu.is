@@ -60,9 +60,8 @@ authenticationController = Ember.Controller.extend
     @get('controllers.session').send('start', memberRef)
     
   invalidate: ->
-    self = @
-    @get('controllers.session').send('stop').then ->
-      self.authClient.logout()
+    @authClient.logout()
+    @get('controllers.session').send('stop')
 
   actions:
     login: (provider) ->

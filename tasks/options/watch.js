@@ -46,7 +46,7 @@ module.exports = {
   },
   other: {
     files: [other, '!'+scripts, '!'+templates, '!'+styles, '!'+indexHTML, bowerFile, npmFile],
-    tasks: ['lock', 'build:debug', 'unlock']
+    tasks: ['lock', 'build:debug', 'copy:cordovaDebug', 'shell:prepare', 'unlock']
   },
 
   options: {

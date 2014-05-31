@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.cordova.CordovaInterface;
@@ -16,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,23 +23,28 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 import com.opentok.android.Connection;
-import com.opentok.android.OpentokException;
+import com.opentok.android.OpentokError;
 import com.opentok.android.Publisher;
+import com.opentok.android.PublisherKit;
 import com.opentok.android.Session;
 import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
+import com.opentok.android.SubscriberKit;
 
-public class OpenTokAndroidPlugin extends CordovaPlugin implements Session.Listener{
+
+public class OpenTokAndroidPlugin extends CordovaPlugin implements 
+  Session.SessionListener, Session.ConnectionListener, Session.SignalListener, 
+  Session.PublisherListener, Session.StreamPropertiesListener{
+  
+  private String sessionId;
   protected Session mSession;
   public static final String TAG = "OTPlugin";
   public boolean sessionConnected;
   public boolean publishCalled; // we need this because creating publisher before sessionConnected = crash
   public RunnablePublisher myPublisher;
   public HashMap<String, CallbackContext> myEventListeners;
+  public HashMap<String, Connection> connectionCollection;
   public HashMap<String, Stream> streamCollection;
   public HashMap<String, RunnableSubscriber> subscriberCollection;
 
@@ -66,7 +71,9 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements Session.Liste
       for (Map.Entry<String, RunnableSubscriber> entry : subscriberCollection.entrySet() ) { 
         allStreamViews.add( entry.getValue() ); 
       }
-      allStreamViews.add( myPublisher );
+      if( myPublisher != null ){
+        allStreamViews.add( myPublisher ); 
+      }
       Collections.sort( allStreamViews, new CustomComparator() );
 
       for( RunnableUpdateViews viewContainer : allStreamViews ){
@@ -86,6 +93,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements Session.Liste
       }
     }
 
+    @SuppressLint("NewApi")
     @Override
       public void run() {
         try{
@@ -104,7 +112,8 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements Session.Liste
       }
   }
 
-  public class RunnablePublisher extends RunnableUpdateViews implements Publisher.Listener{
+  public class RunnablePublisher extends RunnableUpdateViews implements 
+    PublisherKit.PublisherListener, Publisher.CameraListener{
     //  property contains: [stream.streamId, position.top, position.left, width, height, subscribeToVideo, zIndex] )
     public Publisher mPublisher;
 
@@ -132,7 +141,9 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements Session.Liste
       Log.i(TAG, "view running on UIVIEW!!!");
       if( mPublisher == null ){
         ViewGroup frame = (ViewGroup) cordova.getActivity().findViewById(android.R.id.content);
-        mPublisher = Publisher.newInstance(cordova.getActivity().getApplicationContext(), this, null);
+        mPublisher = new Publisher(cordova.getActivity().getApplicationContext(), "publisher" );
+        mPublisher.setCameraListener(this);
+        mPublisher.setPublisherListener(this);
         try{
           if( this.mProperty.getString(8) != null && !(this.mProperty.getString(8).equalsIgnoreCase("front") ) ){
             mPublisher.swapCamera();
@@ -146,30 +157,37 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements Session.Liste
       }
       super.run();
     }
+    
+    // event listeners
+    @Override
+    public void onError(PublisherKit arg0, OpentokError arg1) {
+      // TODO Auto-generated method stub
+      
+    }
 
     @Override
-      public void onPublisherStreamingStarted() {
-
-      }
-
-    @Override
-      public void onPublisherStreamingStopped() {
-        Log.i( TAG, "publisher is not streaming.");
-      }
+    public void onStreamCreated(PublisherKit arg0, Stream arg1) {
+      Log.i(TAG, "publisher stream received");
+      streamCollection.put(arg1.getStreamId(), arg1);
+      triggerStreamCreated( arg1, "publisherEvents");
+    }
 
     @Override
-      public void onPublisherChangedCamera(int i) {
-
-      }
+    public void onStreamDestroyed(PublisherKit arg0, Stream arg1) {
+      streamCollection.remove( arg1.getStreamId() );
+      triggerStreamDestroyed( arg1, "publisherEvents");
+    }
 
     @Override
-      public void onPublisherException(OpentokException e) {
-
-      }
+    public void onCameraChanged(Publisher arg0, int arg1) {
+      // TODO Auto-generated method stub
+      
+    }
 
   }
 
-  public class RunnableSubscriber extends RunnableUpdateViews implements Subscriber.Listener{
+  public class RunnableSubscriber extends RunnableUpdateViews implements 
+    SubscriberKit.SubscriberListener, SubscriberKit.VideoListener{
     //  property contains: [stream.streamId, position.top, position.left, width, height, subscribeToVideo, zIndex] )
     public Subscriber mSubscriber;
     public Stream mStream;
@@ -192,7 +210,9 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements Session.Liste
 
     public void run() {
       if( mSubscriber == null ){
-        mSubscriber = Subscriber.newInstance(cordova.getActivity(), mStream, this);
+        mSubscriber = new Subscriber(cordova.getActivity(), mStream);
+        mSubscriber.setVideoListener(this);
+        mSubscriber.setSubscriberListener(this);
         ViewGroup frame = (ViewGroup) cordova.getActivity().findViewById(android.R.id.content);
         this.mView = mSubscriber.getView();
         frame.addView( this.mView );
@@ -202,19 +222,36 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements Session.Liste
       super.run();
     }
 
+
+    // listeners
     @Override
-      public void onSubscriberException(Subscriber subscriber, OpentokException e) {
-        Log.e(TAG, "subscriber exception: " + e.getMessage() + ", stream id: " + subscriber.getStream().getStreamId());
-      }
+    public void onVideoDataReceived(SubscriberKit arg0) {
+      // TODO Auto-generated method stub
+      
+    }
+
     @Override
-      public void onSubscriberVideoDisabled(Subscriber subscriber) {
-        Log.i(TAG, "subscriber video disabled, stream id: " + subscriber.getStream().getStreamId());
-      }
+    public void onVideoDisabled(SubscriberKit arg0) {
+      // TODO Auto-generated method stub
+      Log.i(TAG, "subscriber video disabled, stream id: " + arg0.getStream().getStreamId());
+    }
+
     @Override
-      public void onSubscriberConnected(Subscriber subscriber) {
-        Log.i(TAG, "subscriber is connected");
-        this.run();
-      }
+    public void onConnected(SubscriberKit arg0) {
+      // TODO Auto-generated method stub
+      Log.i(TAG, "subscriber is connected");
+      this.run();
+    }
+
+    @Override
+    public void onDisconnected(SubscriberKit arg0) {
+      // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onError(SubscriberKit arg0, OpentokError arg1) {
+      Log.e(TAG, "subscriber exception: " + arg1.getMessage() + ", stream id: " + arg0.getStream().getStreamId() );
+    }
   }
 
   @Override
@@ -238,6 +275,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements Session.Liste
       publishCalled = false;
       sessionConnected = false;
       myEventListeners = new HashMap<String, CallbackContext>();
+      connectionCollection = new HashMap<String, Connection>();
       streamCollection = new HashMap<String, Stream>();
       subscriberCollection = new HashMap<String, RunnableSubscriber>();
 
@@ -254,8 +292,13 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements Session.Liste
 
       }else if( action.equals( "initSession" )){
         Log.i( TAG, "created new session with data: "+args.toString());
-        mSession = Session.newInstance( this.cordova.getActivity().getApplicationContext() , args.getString(0), this );
-      
+        mSession = new Session(this.cordova.getActivity().getApplicationContext(), args.getString(0), args.getString(1));
+        mSession.setSessionListener(this);
+        mSession.setConnectionListener(this);
+        mSession.setSignalListener(this);
+        mSession.setPublisherListener(this);
+        mSession.setStreamPropertiesListener(this);
+        
       // publisher methods
       }else if( action.equals( "publishAudio") ){
         String val = args.getString(0);
@@ -280,14 +323,24 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements Session.Liste
         myEventListeners.put( args.getString(0), callbackContext);
       }else if( action.equals( "connect" )){
         Log.i( TAG, "connect command called");
-        mSession.connect( args.getString(0), args.getString(1));
+        mSession.connect( args.getString(0));
       }else if( action.equals( "disconnect" )){
-
+        mSession.disconnect();
       }else if( action.equals( "publish" )){
         if( sessionConnected ){
           Log.i( TAG, "publisher is publishing" );
           myPublisher.startPublishing();
         }
+      }else if( action.equals( "signal" )){
+
+        ArrayList<Connection> connections = new ArrayList<Connection>();
+        for( String e : args.getString(2).split(" ")){
+          Connection c = connectionCollection.get(e);
+          if( c!= null){
+            connections.add(c);
+          }
+        }
+        mSession.sendSignal(args.getString(0), args.getString(1), connections);
       }else if( action.equals( "unpublish" )){
 
       }else if( action.equals( "unsubscribe" )){
@@ -323,98 +376,192 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements Session.Liste
     AlertDialog dialog = builder.create();
   }
 
-  @Override
-    public void onSessionConnected() {
-      Log.i(TAG, "session connected, triggering sessionConnected Event. My Cid is: "+ 
-          mSession.getConnection().getConnectionId()    );      
-      sessionConnected = true;
-      JSONObject message = new JSONObject();        
-      try{
 
-        JSONObject connection= new JSONObject();
-        connection.put("connectionId", mSession.getConnection().getConnectionId());
-
-        message.put("connection", connection);
-      }catch (JSONException e) {}
-
-      myEventListeners.get("sessSessionConnected").success( message );
-    }
-  public void onSessionDisconnected() {
-    Log.i(TAG, "session disconnected.");
+ 
+  // publisherListener
+  public void onPublisherAdded(Session arg0, PublisherKit arg1) {
+    // TODO Auto-generated method stub
   }
 
   @Override
-    public void onSessionException(OpentokException e) {
-      Log.e(TAG, "session exception: " + e.getMessage());
-      alertUser("session error "+e.getMessage());
-    }
+  public void onPublisherRemoved(Session arg0, PublisherKit arg1) {
+    // TODO Auto-generated method stub
+    
+  }
+  
+  // sessionListener
+  @Override
+  public void onConnected(Session arg0) {
+    Log.i(TAG, "session connected, triggering sessionConnected Event. My Cid is: "+ 
+    mSession.getConnection().getConnectionId()    );      
+    sessionConnected = true;
 
-  public void onSessionCreatedConnection(Connection connection) {
-    Log.i(TAG, "connection created: " + connection.getConnectionId());
+    JSONObject data = new JSONObject();
+    try{
+      data.put("status", "connected");
+      JSONObject connection = createDataFromConnection( mSession.getConnection() );
+      data.put("connection", connection);
+    }catch (JSONException e) {}
+    triggerJSEvent( "sessionEvents", "sessionConnected", data);
   }
 
   @Override
-    public void onSessionDroppedConnection(Connection connection) {
-      Log.i(TAG, "connection dropped: " + connection.getConnectionId());
-    }
-
-
-  @Override
-    public void onSessionReceivedStream(Stream stream) {
-      Log.i(TAG, "stream received");
-      //        JSONArray message = new JSONArray();
-      //        message.put( stream.getConnection().getConnectionId() );
-      //        message.put( stream.getStreamId() );
-      String message = stream.getConnection().getConnectionId() + "$2#9$" 
-          +stream.getStreamId() + "$2#9$"
-          +stream.getName() + "$2#9$" 
-          + (stream.hasAudio() ? "T" : "F") + "$2#9$"
-          + (stream.hasVideo() ? "T" : "F") + "$2#9$"
-          + stream.getCreationTime() + "$2#9$" ;
-
-      Log.i(TAG, "stream array ready, returning: " + message.toString() );
-      Log.i(TAG, "stream name: " + stream.getName() );
-
-      streamCollection.put(stream.getStreamId(), stream);
-      //        myEventListeners.get("streamCreated").success( message );
-      //myEventListeners.get("streamCreated").( message );
-      PluginResult myResult = new PluginResult(PluginResult.Status.OK, message);
-      myResult.setKeepCallback(true);
-      if( stream.getConnection().getConnectionId().equalsIgnoreCase( mSession.getConnection().getConnectionId() )){
-        myEventListeners.get("pubStreamCreated").sendPluginResult(myResult);
-      }else{
-        myEventListeners.get("sessStreamCreated").sendPluginResult(myResult);
+  public void onDisconnected(Session arg0) {
+    ViewGroup parent = (ViewGroup) cordova.getActivity().findViewById(android.R.id.content);
+    for (Map.Entry<String, RunnableSubscriber> entry : subscriberCollection.entrySet() ) { 
+      if (null != parent) {
+        parent.removeView( entry.getValue().mView  );
       }
     }
+    if( myPublisher != null ){
+      parent.removeView( myPublisher.mView  );
+    }
+    
+    JSONObject data = new JSONObject();   
+    try{
+      data.put("reason", "clientDisconnected");
+    }catch (JSONException e) {}
+
+    triggerJSEvent( "sessionEvents", "sessionDisconnected", data);
+  }
 
   @Override
-    public void onSessionDroppedStream(Stream stream) {
-      Log.i(TAG, "session dropped stream");
-      CallbackContext streamDisconnectedCallback = myEventListeners.get( "sessStreamDestroyed" ); 
-      if( streamDisconnectedCallback != null ){
-        Log.i(TAG, "dropped stream callback found");
+  public void onStreamDropped(Session arg0, Stream arg1) {
+    Log.i(TAG, "session dropped stream");
+    streamCollection.remove( arg1.getStreamId() );
+    RunnableSubscriber subscriber = subscriberCollection.get( arg1.getStreamId() );
+    subscriber.removeStreamView();    
+    subscriberCollection.remove( arg1.getStreamId() );
+  
+    triggerStreamDestroyed( arg1, "sessionEvents");
+  }
 
+  @Override
+  public void onStreamReceived(Session arg0, Stream arg1) {
+    Log.i(TAG, "stream received");
+    streamCollection.put(arg1.getStreamId(), arg1);
+    triggerStreamCreated( arg1, "sessionEvents");
+  }
+  
+  @Override
+  public void onError(Session arg0, OpentokError arg1) {
+    // TODO Auto-generated method stub
+    Log.e(TAG, "session exception: " + arg1.getMessage());
+    alertUser("session error "+arg1.getMessage());
+  }
+  
+  // connectionListener
+  public void onConnectionCreated(Session arg0, Connection arg1) {
+    Log.i(TAG, "connectionCreated");   
 
-        Log.i(TAG, "destroying corresponding subscriber");
-        RunnableSubscriber subscriber = subscriberCollection.get( stream.getStreamId() );
-        if( subscriber == null ){
-          Log.i(TAG, "stream does not exist in subscriber collection");
-          return;
-        }
-        subscriber.removeStreamView();
-        Log.i(TAG, "removed subscriber stream view");
-        subscriberCollection.remove( stream.getStreamId() );
-        
-        PluginResult myResult = new PluginResult(PluginResult.Status.OK, stream.getStreamId());
-        myResult.setKeepCallback(true);
-        if( stream.getConnection() != null ){
-          if( stream.getConnection().getConnectionId().equalsIgnoreCase( mSession.getConnection().getConnectionId() )){
-            streamDisconnectedCallback = myEventListeners.get( "pubStreamDestroyed" ); 
-          }
-        }
-        streamDisconnectedCallback.sendPluginResult(myResult);
-        Log.i(TAG, "stream disconnected callback sent");
-        
+    connectionCollection.put(arg1.getConnectionId(), arg1);
+
+    JSONObject data= new JSONObject();
+    try{
+      JSONObject connection = createDataFromConnection( arg1 );
+      data.put("connection", connection);
+    }catch (JSONException e) {}
+    triggerJSEvent( "sessionEvents", "connectionCreated", data);
+  }
+
+  public void onConnectionDestroyed(Session arg0, Connection arg1) {Log.i(TAG, "connection dropped: " + arg1.getConnectionId());
+
+  connectionCollection.remove( arg1.getConnectionId() );
+    JSONObject data= new JSONObject();
+    try{
+      JSONObject connection = createDataFromConnection( arg1 );
+      data.put("connection", connection);
+    }catch (JSONException e) {}
+    triggerJSEvent( "sessionEvents", "connectionDestroyed", data);
+  }
+
+  // signalListener
+  public void onSignalReceived(Session arg0, String arg1, String arg2, Connection arg3) {
+    JSONObject data= new JSONObject();
+    try{
+      data.put("type", arg1);
+      data.put("data", arg2);
+      if(arg3 != null){
+        data.put("connectionId", arg3.getConnectionId());
       }
-    }
+      triggerJSEvent( "sessionEvents", "signalReceived", data);
+    }catch (JSONException e) {}
+  }
+
+  // streamPropertiesListener
+  @Override
+  public void onStreamHasAudioChanged(Session arg0, Stream arg1, boolean arg2) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void onStreamHasVideoChanged(Session arg0, Stream arg1, boolean arg2) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void onStreamVideoDimensionsChanged(Session arg0, Stream arg1,
+      int arg2, int arg3) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  
+  // Helper Methods
+  public void triggerStreamDestroyed( Stream arg1, String eventType ){
+    JSONObject data= new JSONObject();
+    try{
+      JSONObject stream = createDataFromStream( arg1 );
+      data.put("stream", stream);
+      triggerJSEvent( "sessionEvents", "streamDestroyed", data);
+    }catch (JSONException e) {}
+  }
+  public void triggerStreamCreated( Stream arg1, String eventType ){
+    JSONObject data= new JSONObject();
+    try{
+      JSONObject stream = createDataFromStream( arg1 );
+      data.put("stream", stream);
+      triggerJSEvent( eventType, "streamCreated", data);
+    }catch (JSONException e) {}
+    
+    Log.i(TAG, "stream received done");
+  }
+  public JSONObject createDataFromConnection( Connection arg1 ){
+    JSONObject connection = new JSONObject();
+    
+    try{
+      connection.put("connectionId", arg1.getConnectionId());
+      connection.put("creationTime", arg1.getCreationTime());
+      connection.put("data", arg1.getData());
+    }catch (JSONException e) {}
+    return connection;
+  }
+  public JSONObject createDataFromStream( Stream arg1 ){
+    JSONObject stream = new JSONObject();
+    try{
+      stream.put("connectionId", arg1.getConnection().getConnectionId() );
+      stream.put("creationTime", arg1.getCreationTime() );
+      stream.put("fps", -999);
+      stream.put("hasAudio", arg1.hasAudio());
+      stream.put("hasVideo", arg1.hasVideo());
+      stream.put("name", arg1.getName());
+      stream.put("streamId", arg1.getStreamId());
+    }catch (JSONException e) {}
+    return stream;
+  }
+  public void triggerJSEvent(String event, String type, JSONObject data ){
+    JSONObject message = new JSONObject();       
+
+    try{
+      message.put("eventType", type);
+      message.put("data", data);
+    }catch (JSONException e) {}
+    
+    PluginResult myResult = new PluginResult(PluginResult.Status.OK, message);
+    myResult.setKeepCallback(true);
+    myEventListeners.get(event).sendPluginResult(myResult);
+  }
 }
+

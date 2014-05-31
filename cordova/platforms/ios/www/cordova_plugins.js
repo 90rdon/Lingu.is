@@ -26,8 +26,8 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "com.tokbox.cordova.opentok": "1.0.2",
-    "org.apache.cordova.console": "0.2.6",
-    "org.apache.cordova.inappbrowser": "0.3.3"
+    "org.apache.cordova.console": "0.2.8",
+    "org.apache.cordova.inappbrowser": "0.4.0"
 }
 // BOTTOM OF METADATA
 });
