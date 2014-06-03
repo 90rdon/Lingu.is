@@ -26,23 +26,23 @@ module.exports = {
   // },
   scripts: {
     files: [scripts],
-    tasks: ['lock', 'buildScripts', 'unlock']
+    tasks: ['lock', 'buildScripts', 'copy:cordovaDebug', 'shell:prepare', 'unlock']
   },
   templates: {
     files: [templates],
-    tasks: ['lock', 'buildTemplates:debug', 'unlock']
+    tasks: ['lock', 'buildTemplates:debug', 'copy:cordovaDebug', 'shell:prepare', 'unlock']
   },
   sprites: {
     files: [sprites],
-    tasks: filterAvailable(['lock', 'fancySprites:create', 'unlock'])
+    tasks: filterAvailable(['lock', 'fancySprites:create', 'copy:cordovaDebug', 'shell:prepare', 'unlock'])
   },
   styles: {
     files: [styles],
-    tasks: ['lock', 'buildStyles', 'unlock']
+    tasks: ['lock', 'buildStyles', 'copy:cordovaDebug', 'shell:prepare', 'unlock']
   },
   indexHTML: {
     files: [indexHTML],
-    tasks: ['lock', 'buildIndexHTML:debug', 'unlock']
+    tasks: ['lock', 'buildIndexHTML:debug', 'copy:cordovaDebug', 'shell:prepare', 'unlock']
   },
   other: {
     files: [other, '!'+scripts, '!'+templates, '!'+styles, '!'+indexHTML, bowerFile, npmFile],

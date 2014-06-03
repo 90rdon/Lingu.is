@@ -74,20 +74,33 @@ module.exports = (grunt) ->
     (req, res) ->
       req.pipe(request(target + req.url)).pipe res
 
+  
+  # OpenTok     = require('opentok')
+  express     = require('express')
+  lockFile    = require('lockfile')
+  Helpers     = require('./helpers')
+  fs          = require('fs')
+  path        = require('path')
+  request     = require('request')
 
+  OTKEY       = process.env.TB_KEY
+  OTSECRET    = process.env.TB_SECRET
+  urlSessions = {};
+  
+  # opentok   = new OpenTok(OTKEY, OTSECRET)
 
+  # sendResponse = (sessionId, responder) ->
+  #   token = opentok.generateToken({ session_id: sessionId })
+  #   data = opentok:OTKEY, sessionId: sessionId, token: token
+  #   responder.render('index', data)
 
-
-  express = require('express')
-  lockFile = require('lockfile')
-  Helpers = require('./helpers')
-  fs = require('fs')
-  path = require('path')
-  request = require('request')
 
   grunt.registerTask 'expressServer', (target, keepalive) ->
     require 'express-namespace'
-
+    # OTKEY     = process.env.TB_KEY
+    # OTSECRET  = process.env.TB_SECRET
+  
+    # opentok   = new OpenTok(OTKEY, OTSECRET)
 
     app = express()
     done = @async()
@@ -110,9 +123,17 @@ module.exports = (grunt) ->
 
     if target is 'debug'
       app.use require('connect-livereload')()  if Helpers.isPackageAvailable('connect-livereload')
+      app.use express.errorHandler ( 
+        dumpExceptions: true
+        showStack: true 
+      )
       app.use static_(
         urlRoot: '/config'
         directory: 'config'
+      )
+      app.use static_(
+        urlRoot: '/lib'
+        directory: 'lib'
       )
       app.use static_(
         urlRoot: '/vendor'
@@ -135,6 +156,13 @@ module.exports = (grunt) ->
         file: 'dist/index.html'
         ignoredFileExtensions: /\.\w{1,5}$/
       )
+
+    # app.get '/:session', (req, res) ->
+    #   if not urlSessions[ req.params.session ]
+    #     opentok.createSession (err, sessionId) ->
+    #       app.set('sessionId', sessionId)
+    #       urlSessions[ req.params.session ] = sessionId
+    #       sendResponse(sessionId, res)
 
     port = parseInt(process.env.PORT or 3333, 10)
 

@@ -4,77 +4,47 @@
         "uninstalled": []
     },
     "config_munge": {
-        "framework": {
-            "Foundation.framework": {
-                "false": 1
+        "files": {
+            "framework": {
+                "parents": {
+                    "CoreGraphics.framework": [
+                        {
+                            "xml": "false",
+                            "count": 1
+                        }
+                    ],
+                    "Foundation.framework": [],
+                    "UIKit.framework": [],
+                    "AVFoundation.framework": [],
+                    "QuartzCore.framework": [],
+                    "OpenGLES.framework": [],
+                    "CoreVideo.framework": [],
+                    "AudioToolbox.framework": [],
+                    "Security.framework": [],
+                    "CoreMedia.framework": [],
+                    "SystemConfiguration.framework": [],
+                    "CFNetwork.framework": [],
+                    "CoreTelephony.framework": [],
+                    "libstdc++.6.0.9.dylib": [],
+                    "libz.dylib": [],
+                    "libsqlite3.dylib": [],
+                    "libxml2.dylib": []
+                }
             },
-            "UIKit.framework": {
-                "false": 1
-            },
-            "AVFoundation.framework": {
-                "false": 1
-            },
-            "QuartzCore.framework": {
-                "false": 1
-            },
-            "OpenGLES.framework": {
-                "false": 1
-            },
-            "CoreVideo.framework": {
-                "false": 1
-            },
-            "AudioToolbox.framework": {
-                "false": 1
-            },
-            "Security.framework": {
-                "false": 1
-            },
-            "CoreMedia.framework": {
-                "false": 1
-            },
-            "SystemConfiguration.framework": {
-                "false": 1
-            },
-            "CFNetwork.framework": {
-                "false": 1
-            },
-            "CoreTelephony.framework": {
-                "false": 1
-            },
-            "libstdc++.6.0.9.dylib": {
-                "false": 1
-            },
-            "libz.dylib": {
-                "false": 1
-            },
-            "libsqlite3.dylib": {
-                "false": 1
-            },
-            "libxml2.dylib": {
-                "false": 1
-            },
-            "CoreGraphics.framework": {
-                "false": 1
-            }
-        },
-        "config.xml": {
-            "/*/plugins": {
-                "<feature name=\"OpenTokPlugin\"><param name=\"ios-package\" value=\"OpenTokPlugin\" /></feature>": 1
-            },
-            "/*": {
-                "<access origin=\"*\" />": 1,
-                "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>": 1,
-                "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>": 1
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>",
+                            "count": 1
+                        }
+                    ],
+                    "/*/plugins": []
+                }
             }
         }
     },
     "installed_plugins": {
-        "com.tokbox.cordova.opentok": {
-            "PACKAGE_NAME": "is.lingu.app"
-        },
-        "org.apache.cordova.console": {
-            "PACKAGE_NAME": "is.lingu.app"
-        },
         "org.apache.cordova.inappbrowser": {
             "PACKAGE_NAME": "is.lingu.app"
         }

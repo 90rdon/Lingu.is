@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--<meta charset='utf-8'>-->
+  <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <meta name='format-detection' content='telephone=no' />
+  
+  <title>Lingu.is</title>
+  <meta name='description' content=''>
+  <!--<meta name='viewport' content='width=device-width, initial-scale=1'>-->
+
+  <!-- build:css(tmp/result) assets/app.min.css -->
+  <link rel='stylesheet' href='/ios/www/assets/linguis.css'>
+  <link rel='stylesheet' href='/ios/www/assets/effeckt.css'>
+  <link rel='stylesheet' href='/ios/www/assets/topcoat-ios7.css'>
+  <!-- endbuild -->
+
+  <!-- build:css(tmp/result) assets/ios/www/vendor.min.css -->
+    
+    <link rel='stylesheet' href='/ios/www/vendor/flexbox-grid/flexbox-grid.css'>
+    <link rel='stylesheet' href='/ios/www/vendor/topcoat-effeckt/css/effeckt.autoprefixed.css'>
+    <link rel='stylesheet' href='/ios/www/vendor/icomatic/kit/icomatic.css' />
+
+  <!-- endbuild -->
+
+  <!-- for more details visit: https://github.com/yeoman/grunt-usemin -->
+
+  <!-- build:js(tmp/result) assets/config.min.js -->
+
+    <script src='/ios/www/config/environment.js'></script>
+      <!-- @if dist=false -->
+      <script src='/ios/www/config/environments/development.js'></script>
+    <!-- @endif -->  <!-- endbuild -->
+
+  <!-- build:js(tmp/result) assets/vendor.min.js -->
+
+    <script src='/ios/www/vendor/jquery/jquery.js'></script>
+    <script src='/ios/www/vendor/modernizr/modernizr.js'></script>
+    <script src='/ios/www/vendor/fastclick/lib/fastclick.js'></script>
+
+    <script src='/ios/www/vendor/firebase/firebase-debug.js'></script>
+    <script src='/ios/www/vendor/handlebars/handlebars.js'></script>
+    <script src='/ios/www/vendor/ember/ember.js'></script>
+    <script src='/ios/www/vendor/fireplace/dist/fireplace.js'></script>
+    <!--<script src='/ios/www/vendor/ember-data/ember-data.js'></script>
+    <script src='/ios/www/vendor/emberfire/dist/emberfire.js'></script>-->
+    <script src='/ios/www/vendor/hammerjs/hammer.js'></script>
+    <script src='/ios/www/vendor/swag/lib/swag.js'></script>
+    <script src='/ios/www/vendor/ember-inflector.js'></script>
+    <script src='/ios/www/vendor/ember-hammer.js'></script>
+    <script src="/ios/www/vendor/firebase-simple-login.js"></script>
+    <script src='/ios/www/vendor/loader.js'></script>
+    <script src='/ios/www/vendor/ember-resolver/dist/ember-resolver.js'></script>
+    <script src='/ios/www/vendor/ic-ajax/main.js'></script>
+
+  <!-- endbuild -->
+
+  <!-- build:js(tmp/result) assets/app.min.js -->
+
+    <script src='/ios/www/assets/app.js'></script>
+    <script src='/ios/www/assets/templates.js'></script>
+
+  <!-- endbuild -->
+
+</head>
+<body>
+  <!--[if lt IE 8]>
+    <p class='browsehappy'>
+      You are using an <strong>outdated</strong> browser. Please
+      <a href='http://browsehappy.com/'>upgrade your browser</a>
+      to improve your experience.
+    </p>
+  <![endif]-->
+
+  <script type='text/javascript' src='cordova.js'></script>
+  <!-- <script type='text/javascript' src='cordova_plugins.js'></script>
+  <script type='text/javascript' src='opentok.js'></script>-->
+  <script>
+      $(function () {
+        App = require('linguis/app')['default'].create();
+        window.addEventListener('load', function() {
+            new FastClick(document.body);
+        }, false);
+        App.phoneGapApp.initialize();
+        if (window.device) {
+            // A mobile device is being used
+        } else {
+            //If a mobile device is not being used then lets kick off the app
+            console.log('Phone Gap -INIT-');
+            App.phoneGapApp.onDeviceReady();
+        }
+      })
+  </script>
+  <!--<script src="http://debug.phonegap.com/target/target-script-min.js#ordinarylove"></script>-->
+</body>
+</html>

@@ -38,19 +38,37 @@ module.exports = {
   cordovaDebug: {
     files: [{
       expand: true,
-      cwd: 'tmp/result/',
+      cwd: 'tmp/result',
       src: ['**'],
       dest: 'cordova/www'
     }, {
       expand: true,
-      cwd: 'vendor/',
+      cwd: 'vendor',
       src: ['**/*.{js,css,woff,ttf,svg}'],
       dest: 'cordova/www/vendor'
     }, {
       expand: true,
-      cwd: 'config/',
+      cwd: 'config',
       src: ['**'],
       dest: 'cordova/www/config'
+    }]
+  },
+
+  cordovaIndexDebug: {
+    files: [{
+      expand: true,
+      cwd: 'cordova/merges/ios/debug',
+      src: ['index.html'],
+      dest: 'cordova/merges/ios'
+    }]
+  },
+
+  cordovaIndexDist: {
+    files: [{
+      expand: true,
+      cwd: 'cordova/merges/ios/dist',
+      src: ['index.html'],
+      dest: 'cordova/merges/ios'
     }]
   },
 
