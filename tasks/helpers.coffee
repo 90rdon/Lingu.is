@@ -23,6 +23,7 @@ taskRequirements =
   autoprefixer: ['grunt-autoprefixer']
   rev: ['grunt-rev']
   shell: ['grunt-shell']
+  debugTask: ['grunt-debug-task']
 
 
 # Task fallbacks

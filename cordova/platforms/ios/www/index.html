@@ -5,23 +5,63 @@
   <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
   <meta name='format-detection' content='telephone=no' />
-  <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-  <meta name='viewport' content='user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi' />
   
   <title>Lingu.is</title>
   <meta name='description' content=''>
   <!--<meta name='viewport' content='width=device-width, initial-scale=1'>-->
 
-  <link rel="stylesheet" href="assets/17c6e618.app.min.css">
+  <!-- build:css(tmp/result) assets/app.min.css -->
+  <link rel='stylesheet' href='assets/linguis.css'>
+  <link rel='stylesheet' href='assets/effeckt.css'>
+  <link rel='stylesheet' href='assets/topcoat-ios7.css'>
+  <!-- endbuild -->
 
-  <link rel="stylesheet" href="assets/vendor.min.css">
+  <!-- build:css(tmp/result) assetsvendor.min.css -->
+    
+    <link rel='stylesheet' href='vendor/flexbox-grid/flexbox-grid.css'>
+    <link rel='stylesheet' href='vendor/topcoat-effeckt/css/effeckt.autoprefixed.css'>
+    <link rel='stylesheet' href='vendor/icomatic/kit/icomatic.css' />
+
+  <!-- endbuild -->
 
   <!-- for more details visit: https://github.com/yeoman/grunt-usemin -->
 
-  <script src="assets/acb720d0.config.min.js"></script>
+  <!-- build:js(tmp/result) assets/config.min.js -->
 
-  <script src="assets/d5204946.vendor.min.js"></script>
-  <script src="assets/cf6a2516.app.min.js"></script>
+    <script src='config/environment.js'></script>
+      <!-- @if dist=false -->
+      <script src='config/environments/development.js'></script>
+    <!-- @endif -->  <!-- endbuild -->
+
+  <!-- build:js(tmp/result) assets/vendor.min.js -->
+
+    <script src='vendor/jquery/jquery.js'></script>
+    <script src='vendor/modernizr/modernizr.js'></script>
+    <script src='vendor/fastclick/lib/fastclick.js'></script>
+
+    <script src='vendor/firebase/firebase-debug.js'></script>
+    <script src='vendor/handlebars/handlebars.js'></script>
+    <script src='vendor/ember/ember.js'></script>
+    <script src='vendor/fireplace/dist/fireplace.js'></script>
+    <!--<script src='vendor/ember-data/ember-data.js'></script>
+    <script src='vendor/emberfire/dist/emberfire.js'></script>-->
+    <script src='vendor/hammerjs/hammer.js'></script>
+    <script src='vendor/swag/lib/swag.js'></script>
+    <script src='vendor/ember-inflector.js'></script>
+    <script src='vendor/ember-hammer.js'></script>
+    <script src="vendor/firebase-simple-login.js"></script>
+    <script src='vendor/loader.js'></script>
+    <script src='vendor/ember-resolver/dist/ember-resolver.js'></script>
+    <script src='vendor/ic-ajax/main.js'></script>
+
+  <!-- endbuild -->
+
+  <!-- build:js(tmp/result) assets/app.min.js -->
+
+    <script src='assets/app.js'></script>
+    <script src='assets/templates.js'></script>
+
+  <!-- endbuild -->
 
 </head>
 <body>
@@ -33,21 +73,25 @@
     </p>
   <![endif]-->
 
+  <script type='text/javascript' src='cordova.js'></script>
+  <!-- <script type='text/javascript' src='cordova_plugins.js'></script> -->
+  <script type='text/javascript' src='opentok.js'></script>
   <script>
       $(function () {
         App = require('linguis/app')['default'].create();
-        // window.addEventListener('load', function() {
-        //     new FastClick(document.body);
-        // }, false);
-        // App.phoneGapApp.initialize();
-        // if (window.device) {
-        //     // A mobile device is being used
-        // } else {
-        //     //If a mobile device is not being used then lets kick off the app
-        //     console.log('Phone Gap -INIT-');
-        //     App.phoneGapApp.onDeviceReady();
-        // }
+        window.addEventListener('load', function() {
+            new FastClick(document.body);
+        }, false);
+        App.phoneGapApp.initialize();
+        if (window.device) {
+            // A mobile device is being used
+        } else {
+            //If a mobile device is not being used then lets kick off the app
+            console.log('Phone Gap -INIT-');
+            App.phoneGapApp.onDeviceReady();
+        }
       })
   </script>
+  <!--<script src="http://debug.phonegap.com/target/target-script-min.js#ordinarylove"></script>-->
 </body>
 </html>

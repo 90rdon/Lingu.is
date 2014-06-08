@@ -42,3 +42,5 @@ App.reopen
 #     container.typeInjection 'component', 'store', 'store:main'
 
 # `export default storeInititalizer`
+#
+#

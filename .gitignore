@@ -69,3 +69,6 @@ DerivedData
 
 # CocoaPods
 Pods
+
+#opentok key & secret
+/tasks/options/opentok.js

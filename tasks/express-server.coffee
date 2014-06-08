@@ -70,44 +70,29 @@ module.exports = (grunt) ->
           grunt.verbose.ok 'Served: ' + filePath
 
 
-  passThrough = (target) ->
+  passThrough   = (target) ->
     (req, res) ->
       req.pipe(request(target + req.url)).pipe res
 
   
-  # OpenTok     = require('opentok')
-  express     = require('express')
-  lockFile    = require('lockfile')
-  Helpers     = require('./helpers')
-  fs          = require('fs')
-  path        = require('path')
-  request     = require('request')
-
-  OTKEY       = process.env.TB_KEY
-  OTSECRET    = process.env.TB_SECRET
-  urlSessions = {};
-  
-  # opentok   = new OpenTok(OTKEY, OTSECRET)
-
-  # sendResponse = (sessionId, responder) ->
-  #   token = opentok.generateToken({ session_id: sessionId })
-  #   data = opentok:OTKEY, sessionId: sessionId, token: token
-  #   responder.render('index', data)
-
+  OpenTok       = require('opentok')
+  express       = require('express')
+  lockFile      = require('lockfile')
+  Helpers       = require('./helpers')
+  fs            = require('fs')
+  path          = require('path')
+  request       = require('request')
 
   grunt.registerTask 'expressServer', (target, keepalive) ->
     require 'express-namespace'
-    # OTKEY     = process.env.TB_KEY
-    # OTSECRET  = process.env.TB_SECRET
-  
-    # opentok   = new OpenTok(OTKEY, OTSECRET)
-
+    
     app = express()
     done = @async()
     # proxyMethod = proxyMethodToUse or grunt.config('express-server.options.APIMethod')
     proxyMethod = grunt.config('express-server.options.APIMethod')
     app.use lock
     app.use express.compress()
+    app.use app.router
 
 
     if proxyMethod is 'stub'
@@ -157,12 +142,25 @@ module.exports = (grunt) ->
         ignoredFileExtensions: /\.\w{1,5}$/
       )
 
-    # app.get '/:session', (req, res) ->
-    #   if not urlSessions[ req.params.session ]
-    #     opentok.createSession (err, sessionId) ->
-    #       app.set('sessionId', sessionId)
-    #       urlSessions[ req.params.session ] = sessionId
-    #       sendResponse(sessionId, res)
+
+    # --- initialize opentok ---
+    OTKEY         = grunt.config('opentok.options.tokboxKey') || process.env.TB_KEY
+    OTSECRET      = grunt.config('opentok.options.tokboxSecret') || process.env.TB_SECRET
+    urlSessions   = {};
+    
+    opentok       = new OpenTok(OTKEY, OTSECRET)
+    sendResponse  = (sessionId, responder) ->
+      token       = opentok.generateToken(sessionId)
+      data        = opentok: OTKEY, sessionId: sessionId, token: token
+      responder.status(200).send(token: data)
+
+    app.get '/session/:session_id', (req, res) ->
+      unless urlSessions[ req.params.session_id ]
+        
+        opentok.createSession (err, session) ->
+          return res.send 500, err: err  if err
+          urlSessions[ req.params.session_id ] = session.sessionId
+          sendResponse session.sessionId, res
 
     port = parseInt(process.env.PORT or 3333, 10)
 

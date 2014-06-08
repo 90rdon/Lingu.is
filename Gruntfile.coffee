@@ -1,4 +1,7 @@
 module.exports = (grunt) ->
+  # ## 
+  # ## To debug grunt tasks, `grunt debug NAMEofYOURtask`
+  # ##
   
   # To support Coffeescript, SASS, LESS and others, just install
   # the appropriate grunt package and it will be automatically included
@@ -90,6 +93,7 @@ module.exports = (grunt) ->
       'clean:debug'
       'build:debug'
       expressServerTask
+      # 'node-inspector'
       'watch'
     ]
 
