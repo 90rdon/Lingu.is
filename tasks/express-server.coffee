@@ -144,23 +144,27 @@ module.exports = (grunt) ->
 
 
     # --- initialize opentok ---
+    urlSessions   = {};
     OTKEY         = grunt.config('opentok.options.tokboxKey') || process.env.TB_KEY
     OTSECRET      = grunt.config('opentok.options.tokboxSecret') || process.env.TB_SECRET
-    urlSessions   = {};
-    
     opentok       = new OpenTok(OTKEY, OTSECRET)
-    sendResponse  = (sessionId, responder) ->
+
+    sendResponse  = (sessionId, res) ->
       token       = opentok.generateToken(sessionId)
       data        = opentok: OTKEY, sessionId: sessionId, token: token
-      responder.status(200).send(token: data)
+      res.send(token: data)
 
-    app.get '/session/:session_id', (req, res) ->
-      unless urlSessions[ req.params.session_id ]
+    app.get '/token/:session_id', (req, res) ->
+      return res.status(500).send(err: 'Session Id required.')  unless req.params.session_id?
         
+      unless urlSessions[ req.params.session_id ]?
         opentok.createSession (err, session) ->
           return res.send 500, err: err  if err
           urlSessions[ req.params.session_id ] = session.sessionId
           sendResponse session.sessionId, res
+      else
+        sendResponse urlSessions[ req.params.session_id ], res
+
 
     port = parseInt(process.env.PORT or 3333, 10)
 

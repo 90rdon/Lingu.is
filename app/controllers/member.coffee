@@ -10,7 +10,7 @@ memberController = Ember.ObjectController.extend
     @set('store', App.__container__.lookup('store:main'))
 
   normalize: (profileRef) ->
-    new Promise (resolve) ->
+    new Ember.RSVP.Promise (resolve) ->
 
       switch profileRef.toFirebaseJSON().provider
         when 'twitter'    then resolve(NormalizeAccount.Twitter(profileRef))
@@ -19,7 +19,7 @@ memberController = Ember.ObjectController.extend
 
   createMember: (identity) ->
     self = @
-    new Promise (resolve, reject) ->
+    new Ember.RSVP.Promise (resolve, reject) ->
 
       self.get('controllers.profile').createProfile(identity).then (profileRef) ->
         self.normalize(profileRef).then (user) ->
@@ -31,8 +31,7 @@ memberController = Ember.ObjectController.extend
 
   findRefByUuid: (uuid) ->
     self = @
-    new Promise (resolve, reject) ->
-
+    new Ember.RSVP.Promise (resolve, reject) ->
       self.store.fetch('member',  uuid).then (memberRef) ->
         resolve(memberRef)
       , (error) ->

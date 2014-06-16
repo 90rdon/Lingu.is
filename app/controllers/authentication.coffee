@@ -1,19 +1,24 @@
+# Firebase Simple Login Hook
+
 authenticationController = Ember.Controller.extend
   needs: [
     'session'
     'profile'
     'member'
+    'session'
   ]
 
+  memberId: null
+
   allowed: (->
-    @get('controllers.session.content')?
+    return true if @get('controllers.session.content')
+    false
   ).property('controllers.session.content')
 
   init: ->
-    @_super()
     self = @
     @set('store', App.__container__.lookup('store:main'))
-
+    
     # create a new firebase login instance
     dbRef = new Firebase App.firebaseUri
     @authClient = new FirebaseSimpleLogin(dbRef, ((error, identity) ->
@@ -26,12 +31,13 @@ authenticationController = Ember.Controller.extend
         # --- authenticating to our app now ---
         self.authenticate(identity).then (memberRef) ->
   
-          # --- give out session after authentication
+          # --- hand out session after authentication
           self.authorize(memberRef)
+
           
       # --- default ---
       else
-        self.invalidate()
+        return
 
     ).bind(@))
 
@@ -40,7 +46,7 @@ authenticationController = Ember.Controller.extend
   # --- authenticating to our app now ---
   authenticate: (identity) ->
     self = @
-    new Promise (resolve, reject) ->
+    new Ember.RSVP.Promise (resolve, reject) ->
 
       self.get('controllers.profile').findAll(identity.uid).then (profiles) ->
 
@@ -57,11 +63,13 @@ authenticationController = Ember.Controller.extend
         reject(error)
 
   authorize: (memberRef) ->
-    @get('controllers.session').send('start', memberRef)
+    @get('controllers.session').send('authorize', memberRef)
+    @set('memberId', memberRef.buildFirebaseReference().name())
     
   invalidate: ->
     @authClient.logout()
-    @get('controllers.session').send('stop')
+    @get('controllers.session').send('invalidate')
+    @set('memberId', null)
 
   actions:
     login: (provider) ->

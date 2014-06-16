@@ -19,6 +19,10 @@ member    = FP.Model.extend
 
   profiles:         hasMany('profile', embedded: false)
 
+  connected: (->
+    @get('id')
+  ).property('id')
+
   fullName: (->
     first   = @get('first') || ''
     last    = @get('last') || ''

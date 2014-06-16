@@ -7,7 +7,7 @@ profileController = Ember.ObjectController.extend
 
   createProfile: (identity) ->
     self = @
-    new Promise (resolve, reject) ->
+    new Ember.RSVP.Promise (resolve, reject) ->
 
       self.store.createRecord 'profile',
         identity:     identity.thirdPartyUserData
@@ -22,7 +22,7 @@ profileController = Ember.ObjectController.extend
 
   findAll: (uid) ->
     self = @
-    new Promise (resolve, reject) ->
+    new Ember.RSVP.Promise (resolve, reject) ->
       
       self.store.fetch 'profile', 
         startAt:  uid
