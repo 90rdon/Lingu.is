@@ -17,11 +17,11 @@ memberController = Ember.ObjectController.extend
         when 'github'     then resolve(NormalizeAccount.Github(profileRef))
         when 'facebook'   then resolve(NormalizeAccount.Facebook(profileRef))
 
-  createMember: (identity) ->
+  create: (identity) ->
     self = @
     new Ember.RSVP.Promise (resolve, reject) ->
 
-      self.get('controllers.profile').createProfile(identity).then (profileRef) ->
+      self.get('controllers.profile').create(identity).then (profileRef) ->
         self.normalize(profileRef).then (user) ->
           user.set('id', profileRef.toFirebaseJSON().uuid)
           self.store.createRecord('member', user).save().then (memberRef) ->
@@ -29,12 +29,34 @@ memberController = Ember.ObjectController.extend
           , (error) ->
             reject(error)
 
+  logon: (memberRef, logon) ->
+    memberRef.buildFirebaseReference()
+    .child('logon')
+    .set(logon)
+
+    memberRef.buildFirebaseReference()
+    .child('logon')
+    .onDisconnect()
+    .set(false)
+
+    memberRef.buildFirebaseReference()
+    .child('status')
+    .onDisconnect()
+    .set('logoff')
+
+  refresh: (memberRef, status) ->
+    memberRef.buildFirebaseReference()
+    .child('status')
+    .set(status)
+
   findRefByUuid: (uuid) ->
     self = @
     new Ember.RSVP.Promise (resolve, reject) ->
+
       self.store.fetch('member',  uuid).then (memberRef) ->
         resolve(memberRef)
       , (error) ->
         reject(error)
+
 
 `export default memberController`

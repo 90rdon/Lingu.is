@@ -8,11 +8,15 @@ profile   = FP.Model.extend
   uid:          attr()
   uuid:         attr()
   provider:     attr()
-  createdOn:    attr('date', default: -> new Date())
+  createdOn:    attr('date', default: -> Firebase.ServerValue.TIMESTAMP)
 
   priority: (->
     @get('uid')
   ).property('uid')
+
+  # id: (->
+  #   @get('id')
+  # ).property('id')
 
 profile.reopenClass
   firebasePath: 'profile'

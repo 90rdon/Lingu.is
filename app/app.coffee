@@ -2,11 +2,11 @@
 `import phoneGapApp     from 'linguis/phoneGapApp'`
 # `import connection      from 'linguis/initializers/connection'`
 `import authentication  from 'linguis/initializers/authentication'`
-`import sessions        from 'linguis/initializers/sessions'`
+`import session         from 'linguis/initializers/session'`
 
 # Ember.Application.initializer(connection)
 Ember.Application.initializer(authentication)
-Ember.Application.initializer(sessions)
+Ember.Application.initializer(session)
 
 App = Ember.Application.extend
   LOG_ACTIVE_GENERATION:    true

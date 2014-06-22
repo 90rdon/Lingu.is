@@ -5,7 +5,7 @@ profileController = Ember.ObjectController.extend
     self = @
     @set('store', App.__container__.lookup('store:main'))
 
-  createProfile: (identity) ->
+  create: (identity) ->
     self = @
     new Ember.RSVP.Promise (resolve, reject) ->
 
@@ -17,19 +17,6 @@ profileController = Ember.ObjectController.extend
 
       .save().then (profileRef) ->
         resolve(profileRef)
-      , (error) ->
-        reject(error)
-
-  findAll: (uid) ->
-    self = @
-    new Ember.RSVP.Promise (resolve, reject) ->
-      
-      self.store.fetch 'profile', 
-        startAt:  uid
-        endAt:    uid
-
-      .then (profiles) ->
-        resolve(profiles)
       , (error) ->
         reject(error)
 

@@ -3,14 +3,15 @@ hasOne    = FP.hasOne
 hasMany   = FP.hasMany
 belongsTo = FP.belongsTo
 
-session   = FP.Model.extend
+history   = FP.Model.extend
+  uuid:             attr()
   status:           attr()
   device:           attr()
   ip:               attr()
   meta:             attr()
   data:             attr()
-  on:               attr()
-  off:              attr()
+  on:               attr('date', default: -> Firebase.ServerValue.TIMESTAMP)
+  off:              attr('date', default: -> null)
 
   priority: (->
     @get('uuid')
@@ -24,7 +25,7 @@ session   = FP.Model.extend
     new Date((@get('off') * 1000) + ' UTC').toString()
   ).property('off')
 
-session.reopenClass
-  firebasePath: 'session'
+history.reopenClass
+  firebasePath: 'history'
   
-`export default session`
+`export default history`

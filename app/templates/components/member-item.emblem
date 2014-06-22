@@ -11,3 +11,5 @@ with member
         tagline
       .bio
         bio
+      .status
+        status

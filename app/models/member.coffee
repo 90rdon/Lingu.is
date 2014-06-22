@@ -15,13 +15,15 @@ member    = FP.Model.extend
   followers_count:  attr()
   friends_count:    attr()
   url:              attr()
-  createdOn:        attr('date', default: -> new Date())
+  createdOn:        attr()
+  status:           attr()
 
   profiles:         hasMany('profile', embedded: false)
+  # sessions:         hasMany('session', embedded: false)
 
-  connected: (->
-    @get('id')
-  ).property('id')
+  # id: (->
+  #   @get('id')
+  # ).property('id')
 
   fullName: (->
     first   = @get('first') || ''

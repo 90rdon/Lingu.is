@@ -3,13 +3,13 @@ sessionsContainer = Ember.View.extend
   didInsertElement: ->
     self = @
     document.onIdle = ->
-      self.get('controller').get('controllers.sessions').setMyStatus('idle')
+      self.get('controller').get('controllers.session').setMyStatus('idle')
     document.onAway = ->
-      self.get('controller').get('controllers.sessions').setMyStatus('away')
+      self.get('controller').get('controllers.session').setMyStatus('away')
     document.onBack = (isIdle, isAway)->
-      self.get('controller').get('controllers.sessions').setMyStatus('online')
+      self.get('controller').get('controllers.session').setMyStatus('online')
 
     setIdleTimeout(5000)
     setAwayTimeout(10000)
-
+    
 `export default sessionsContainer`

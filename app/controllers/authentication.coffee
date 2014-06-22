@@ -1,24 +1,24 @@
 # Firebase Simple Login Hook
-
 authenticationController = Ember.Controller.extend
   needs: [
     'session'
     'profile'
+    'profiles'
     'member'
-    'session'
+    'memberSession'
   ]
 
-  memberId: null
+  memberRef:        null
+  memberSessionRef: null
 
-  allowed: (->
-    return true if @get('controllers.session.content')
-    false
-  ).property('controllers.session.content')
+  statusChange: (->
+    return  unless @get('memberSessionRef')
+    @get('controllers.member')
+    .refresh(@get('memberRef'), @get('controllers.session').get('status'))
+  ).observes('controllers.session.status')
 
   init: ->
     self = @
-    @set('store', App.__container__.lookup('store:main'))
-    
     # create a new firebase login instance
     dbRef = new Firebase App.firebaseUri
     @authClient = new FirebaseSimpleLogin(dbRef, ((error, identity) ->
@@ -30,46 +30,66 @@ authenticationController = Ember.Controller.extend
       else if identity
         # --- authenticating to our app now ---
         self.authenticate(identity).then (memberRef) ->
-  
+          self.set('memberRef', memberRef)
           # --- hand out session after authentication
-          self.authorize(memberRef)
+          self.authorize(memberRef).then (memberSessionRef) ->
+            self.set('memberSessionRef', memberSessionRef)
 
-          
       # --- default ---
       else
-        return
+        console.log 'default happened'
 
     ).bind(@))
-
-  # --- find the member ---
 
   # --- authenticating to our app now ---
   authenticate: (identity) ->
     self = @
     new Ember.RSVP.Promise (resolve, reject) ->
 
-      self.get('controllers.profile').findAll(identity.uid).then (profiles) ->
-
+      self.get('controllers.profiles').findAll(identity.uid).then (profiles) ->
         if profiles.get('length') is 0
           # New Member
-          self.get('controllers.member').createMember(identity).then (memberRef) ->
+          self.get('controllers.member').create(identity).then (memberRef) ->
             resolve(memberRef)
         else
           # Existing Member
           profile = profiles.get('lastObject').toFirebaseJSON()
           self.get('controllers.member').findRefByUuid(profile.uuid).then (memberRef) ->
             resolve(memberRef)
+          , (notFound) ->
+            self.get('controllers.member').create(identity).then (memberRef) ->
+              resolve(memberRef)
+
       , (error) ->
         reject(error)
 
   authorize: (memberRef) ->
-    @get('controllers.session').send('authorize', memberRef)
-    @set('memberId', memberRef.buildFirebaseReference().name())
-    
+    self = @
+    new Ember.RSVP.Promise (resolve, reject) ->
+
+      self.get('controllers.member')
+      .logon(memberRef, true)
+
+      self.get('controllers.member')
+      .refresh(memberRef, self.get('controllers.session').get('status'))
+      
+      self.get('controllers.memberSession')
+      .authorize(memberRef, self.get('controllers.session').get('thisSessionRef'))
+      .then (memberSessionRef) ->
+        resolve(memberSessionRef)
+      , (error) ->
+        reject(error)
+
   invalidate: ->
     @authClient.logout()
-    @get('controllers.session').send('invalidate')
-    @set('memberId', null)
+
+    @get('controllers.member')
+    .logon(@get('memberRef'), false)
+
+    @get('controllers.member')
+    .refresh(@get('memberRef'), 'logoff')
+
+    @set('memberSessionRef', null)
 
   actions:
     login: (provider) ->
