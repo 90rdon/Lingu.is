@@ -1,4 +1,4 @@
 .topcoat-list__container
   .topcoat-list__item
     view 'opentok-container'
-      .room
+      #opentok
