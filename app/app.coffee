@@ -1,12 +1,10 @@
 `import Resolver        from 'ember/resolver'`
 `import phoneGapApp     from 'linguis/phoneGapApp'`
-# `import connection      from 'linguis/initializers/connection'`
 `import authentication  from 'linguis/initializers/authentication'`
-`import session         from 'linguis/initializers/session'`
+`import connection      from 'linguis/initializers/connection'`
 
-# Ember.Application.initializer(connection)
+Ember.Application.initializer(connection)
 Ember.Application.initializer(authentication)
-Ember.Application.initializer(session)
 
 App = Ember.Application.extend
   LOG_ACTIVE_GENERATION:    true
@@ -19,7 +17,7 @@ App = Ember.Application.extend
 
 App.reopen
   serverUri:                'http://0.0.0.0:3333/'
-  phoneGapApp:              phoneGapApp
+  phoneGapApp:                phoneGapApp
   firebaseUri:              'https://linguis.firebaseio.com/'
 
   ready: ->

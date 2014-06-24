@@ -1,15 +1,18 @@
 with member
   .row
     .col-xs-auto.topcoat-list__item__line-height.item-container-lg
-      h2.name
-        displayName
-      if image
-        .image
-          img.medium src=image alt=displayName
-      
-      .tagline
-        tagline
-      .bio
-        bio
-      .status
-        status
+      a href='#/{{unbound id}}'
+        h2.name
+          displayName
+        .status
+          status
+        if image
+          .image
+            img.medium src=image alt=displayName
+        
+        .tagline
+          tagline
+        .bio
+          bio
+      .call
+        button.topcoat-button--cta{action 'call' target='connection'} Call

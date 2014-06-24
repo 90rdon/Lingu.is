@@ -82,6 +82,8 @@ module.exports = (grunt) ->
   fs            = require('fs')
   path          = require('path')
   request       = require('request')
+  Firebase      = require('firebase')
+
 
   grunt.registerTask 'expressServer', (target, keepalive) ->
     require 'express-namespace'
@@ -149,21 +151,28 @@ module.exports = (grunt) ->
     OTSECRET      = grunt.config('opentok.options.tokboxSecret') || process.env.TB_SECRET
     opentok       = new OpenTok(OTKEY, OTSECRET)
 
-    sendResponse  = (sessionId, res) ->
+    sendResponse  = (sessionKey, sessionId, res) ->
       token       = opentok.generateToken(sessionId)
       data        = opentok: OTKEY, sessionId: sessionId, token: token
-      res.send(token: data)
 
+      firebaseUri = grunt.config('firebase.options.uri') || process.env.FB_URI
+      callRef     = new Firebase(firebaseUri + 'call')
+      callRef.child(sessionKey).set(token: data)
+      res.send 200
+
+    # to debug, use http://0.0.0.0:8080/token/123
     app.get '/token/:session_id', (req, res) ->
       return res.status(500).send(err: 'Session Id required.')  unless req.params.session_id?
-        
+
+      # todo: add to check if this session id is validate from firebase 
+      
       unless urlSessions[ req.params.session_id ]?
         opentok.createSession (err, session) ->
           return res.send 500, err: err  if err
           urlSessions[ req.params.session_id ] = session.sessionId
-          sendResponse session.sessionId, res
+          sendResponse req.params.session_id, session.sessionId, res
       else
-        sendResponse urlSessions[ req.params.session_id ], res
+        sendResponse req.params.session_id, urlSessions[ req.params.session_id ], res
 
 
     port = parseInt(process.env.PORT or 3333, 10)

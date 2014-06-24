@@ -2,7 +2,7 @@ applicationController = Ember.ObjectController.extend
   needs: [
     'index'
     'authentication'
-    'session'
+    'connection'
   ]
 
   init: ->

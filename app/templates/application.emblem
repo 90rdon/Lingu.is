@@ -3,7 +3,7 @@ view 'sessions-container'
     .topcoat-navigation-bar__item.left.quarter
       a href='#'
         .topcoat-navigation-bar__title.center
-          if authentication.memberSessionRef
+          if authentication.sessionRef
             span
               authentication.currentMember.displayName
           else
@@ -14,7 +14,7 @@ view 'sessions-container'
 
     .topcoat-navigation-bar__item.center.quarter
       a#off-screen-nav-button.topcoat-icon-button-quiet.off-screen-nav-button data-effeckt='effeckt-off-screen-nav-top-overlay'
-        if authentication.memberSessionRef
+        if authentication.sessionRef
           span.user-icon.icomatic unlock
         else
           span.user-icon.icomatic lock
@@ -28,7 +28,7 @@ view 'sessions-container'
               a#effeckt-off-screen-nav-close.icomatic.icomatic-lg cancel
 
           ul.topcoat-list.offscreen-nav-list
-            if authentication.memberSessionRef
+            if authentication.sessionRef
               li.topcoat-list__item.center
                 .col-xs-auto.topcoat-list__item__line-height.item-container
                   a{action 'logout' target='authentication'}

@@ -1,21 +1,21 @@
 # Firebase Simple Login Hook
 authenticationController = Ember.Controller.extend
   needs: [
-    'session'
+    'connection'
     'profile'
     'profiles'
     'member'
-    'memberSession'
+    'session'
   ]
 
   memberRef:        null
-  memberSessionRef: null
+  sessionRef:       null
 
   statusChange: (->
-    return  unless @get('memberSessionRef')
+    return  unless @get('sessionRef')
     @get('controllers.member')
-    .refresh(@get('memberRef'), @get('controllers.session').get('status'))
-  ).observes('controllers.session.status')
+    .refresh(@get('memberRef'), @get('controllers.connection').get('status'))
+  ).observes('controllers.connection.status')
 
   init: ->
     self = @
@@ -32,8 +32,8 @@ authenticationController = Ember.Controller.extend
         self.authenticate(identity).then (memberRef) ->
           self.set('memberRef', memberRef)
           # --- hand out session after authentication
-          self.authorize(memberRef).then (memberSessionRef) ->
-            self.set('memberSessionRef', memberSessionRef)
+          self.authorize(memberRef).then (sessionRef) ->
+            self.set('sessionRef', sessionRef)
 
       # --- default ---
       else
@@ -71,12 +71,12 @@ authenticationController = Ember.Controller.extend
       .logon(memberRef, true)
 
       self.get('controllers.member')
-      .refresh(memberRef, self.get('controllers.session').get('status'))
+      .refresh(memberRef, self.get('controllers.connection').get('status'))
       
-      self.get('controllers.memberSession')
-      .authorize(memberRef, self.get('controllers.session').get('thisSessionRef'))
-      .then (memberSessionRef) ->
-        resolve(memberSessionRef)
+      self.get('controllers.session')
+      .authorize(memberRef, self.get('controllers.connection').get('thisConnectionRef'))
+      .then (sessionRef) ->
+        resolve(sessionRef)
       , (error) ->
         reject(error)
 
@@ -89,7 +89,7 @@ authenticationController = Ember.Controller.extend
     @get('controllers.member')
     .refresh(@get('memberRef'), 'logoff')
 
-    @set('memberSessionRef', null)
+    @set('sessionRef', null)
 
   actions:
     login: (provider) ->

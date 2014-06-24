@@ -2,5 +2,4 @@
   ul.topcoat-list__container.effeckt-list-scroll.list-fade data-effeckt='fade'
     each memberList
       li.topcoat-list__item.center
-        a href='#/{{unbound id}}'
-          member-item member=this
+        member-item member=this

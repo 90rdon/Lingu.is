@@ -1,5 +1,5 @@
 connectionInititalizer = 
-  name: 'connection'
+  name:  'connection'
   after: 'store'
 
   initialize: (container, application) ->

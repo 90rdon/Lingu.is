@@ -3,6 +3,7 @@
   "namespace": "linguis",
   "APIMethod": "proxy",
   "proxyURL": "http://0.0.0.0:3333",
+  "firebaseUri": "https://linguis.firebaseio.com/",
   "OTKEY": "22828242",
   "OTSECRET": "6154035ad3546a0ac949160f3a6192149871fd54",
   "mongodbUri": "mongodb://guest:linguisguest@ds033639.mongolab.com:33639/heroku_app22711269",
@@ -58,7 +59,9 @@
     "grunt-emblem": "~0.1.0",
     "grunt-contrib-coffee": "~0.9.0",
     "grunt-contrib-less": "~0.9.0",
-    "grunt-contrib-stylus": "~0.13.2"
+    "grunt-contrib-stylus": "~0.13.2",
+    "opentok": "~2.2.2",
+    "firebase": "~1.0.17"
   },
   "devDependencies": {
     "express": "~3.4.8",

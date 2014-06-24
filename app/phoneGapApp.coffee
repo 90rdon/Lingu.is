@@ -7,7 +7,7 @@ phoneGapApp = {
   #
   # Bind any events that are required on startup. Common events
   # are:
-  # 'load', 'deviceready', 'offline', and 'online'.
+  # 'load', 'deviceready', 'offline', and 'connection'.
   bindEvents: ->
     document.addEventListener 'deviceready', @onDeviceReady, false
   
