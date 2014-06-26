@@ -1,4 +1,5 @@
 .topcoat-list__container
   .topcoat-list__item
     view 'opentok-container'
-      #opentok
+      div#opentok
+

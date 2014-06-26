@@ -1,10 +1,10 @@
 opentokContainer = Ember.View.extend
   didInsertElement: ->
     self = @
-    apiKey = @get('controller').get('content').toFirebaseJSON().token.apiKey
-    sessionId = @get('controller').get('content').toFirebaseJSON().token.ssessionId
-    publisher = TB.initPublisher(apiKey, document.getByElementId('opentok'))
-    session = TB.initSession(apiKey, seesionId)
+    apiKey = @get('controller').get('content').toFirebaseJSON().token.opentok
+    sessionId = @get('controller').get('content').toFirebaseJSON().token.sessionId
+    publisher = window.TB.initPublisher(apiKey, $('#opentok'))
+    session = window.TB.initSession(apiKey, sessionId)
 
     session.on streamCreated: (event) ->
       div = document.createElement('div')
@@ -15,7 +15,7 @@ opentokContainer = Ember.View.extend
 
       return
 
-    session.connect data.token, ->
+    session.connect @get('controller').get('content').toFirebaseJSON().token.token, ->
       session.publish publisher
       return
     

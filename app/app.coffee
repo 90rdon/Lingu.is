@@ -16,7 +16,7 @@ App = Ember.Application.extend
   Resolver:                 Resolver['default']
 
 App.reopen
-  serverUri:                'http://linguis.herokuapp.com/'
+  serverUri:                'http://0.0.0.0:3333/'
   phoneGapApp:                phoneGapApp
   firebaseUri:              'https://linguis.firebaseio.com/'
 
