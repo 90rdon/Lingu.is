@@ -1,24 +1,3 @@
-<<<<<<< HEAD
-.topcoat-navigation-bar.effeckt
-  .topcoat-navigation-bar__item.left.quarter
-    a href='/'
-      .topcoat-navigation-bar__title.center
-        if auth.allowed
-          span
-            auth.currentMember.displayName
-        else
-          span.icomatic.icomatic-lg home
-  
-  .topcoat-navigation-bar__item.center.half.veritcal-middle
-    view Em.TextField class='topcoat-search-input' type='search' valueBinding='controllers.index.search' placeholder='search'
-
-  .topcoat-navigation-bar__item.center.quarter
-    a#off-screen-nav-button.topcoat-icon-button-quiet.off-screen-nav-button data-effeckt='effeckt-off-screen-nav-top-overlay'
-      if auth.allowed
-        span.user-icon.icomatic unlock
-      else
-        span.user-icon.icomatic lock
-=======
 view 'sessions-container'
   .topcoat-navigation-bar.effeckt
     .topcoat-navigation-bar__item.left.quarter
@@ -39,7 +18,6 @@ view 'sessions-container'
           span.user-icon.icomatic unlock
         else
           span.user-icon.icomatic lock
->>>>>>> v0.0.2
 
   view 'effeckt-container'
     view 'effeckt-off-screen-nav'
@@ -49,23 +27,6 @@ view 'sessions-container'
             span.item-container
               a#effeckt-off-screen-nav-close.icomatic.icomatic-lg cancel
 
-<<<<<<< HEAD
-        ul.topcoat-list.offscreen-nav-list
-          if auth.allowed
-            li.topcoat-list__item.center
-              .col-xs-auto.topcoat-list__item__line-height.item-container
-                a.icomatic.icomatic-lg{action 'logout' target='view'} unlock
-          else
-            li.topcoat-list__item.center
-              .col-xs-auto.topcoat-list__item__line-height.item-container
-                  a.icomatic.icomatic-lg{action 'login' 'twitter' target='view'} twitter
-            li.topcoat-list__item.center
-              .col-xs-auto.topcoat-list__item__line-height.item-container
-                  a.icomatic.icomatic-lg{action 'login' 'github' target='view'} github
-            li.topcoat-list__item.center
-              .col-xs-auto.topcoat-list__item__line-height.item-container
-                  a.icomatic.icomatic-lg{action 'login' 'facebook' target='view'} facebook
-=======
           ul.topcoat-list.offscreen-nav-list
             if authentication.sessionRef
               li.topcoat-list__item.center
@@ -85,7 +46,6 @@ view 'sessions-container'
                 .col-xs-auto.topcoat-list__item__line-height.item-container
                     a{action 'login' 'facebook' target='authentication'}
                       span.icomatic.icomatic-lg facebook
->>>>>>> v0.0.2
 
       .off-screen-nav-cover
 
