@@ -147,15 +147,15 @@ module.exports = (grunt) ->
 
     # --- initialize opentok ---
     urlSessions   = {};
-    OTKEY         = grunt.config('opentok.options.tokboxKey') || process.env.TB_KEY
-    OTSECRET      = grunt.config('opentok.options.tokboxSecret') || process.env.TB_SECRET
+    OTKEY         = process.env.TB_KEY || grunt.config('opentok|| .options.tokboxKey')
+    OTSECRET      = process.env.TB_SECRET grunt.config('opentok.options.tokboxSecret')
     opentok       = new OpenTok(OTKEY, OTSECRET)
 
     sendResponse  = (sessionKey, sessionId, res) ->
       token       = opentok.generateToken(sessionId)
       data        = opentok: OTKEY, sessionId: sessionId, token: token
 
-      firebaseUri = grunt.config('firebase.options.uri') || process.env.FB_URI
+      firebaseUri = process.env.FB_URI || grunt.config('firebase.options.uri')
       callRef     = new Firebase(firebaseUri + 'call')
       callRef.child(sessionKey).set(token: data)
       res.send 200
