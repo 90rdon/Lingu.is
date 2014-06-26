@@ -148,7 +148,7 @@ module.exports = (grunt) ->
     # --- initialize opentok ---
     urlSessions   = {};
     OTKEY         = process.env.TB_KEY || grunt.config('opentok|| .options.tokboxKey')
-    OTSECRET      = process.env.TB_SECRET grunt.config('opentok.options.tokboxSecret')
+    OTSECRET      = process.env.TB_SECRET || grunt.config('opentok.options.tokboxSecret')
     opentok       = new OpenTok(OTKEY, OTSECRET)
 
     sendResponse  = (sessionKey, sessionId, res) ->
