@@ -1,4 +1,7 @@
 module.exports = (grunt) ->
+  # ## 
+  # ## To debug grunt tasks, `grunt debug NAMEofYOURtask`
+  # ##
   
   # To support Coffeescript, SASS, LESS and others, just install
   # the appropriate grunt package and it will be automatically included
@@ -74,10 +77,7 @@ module.exports = (grunt) ->
     'clean:dist'
     'build:dist'
     'copy:assemble'
-    
-    # 'copy:fontsToResult',
     'createDistVersion'
-    'copy:cordova'
   ]
   
   # Default Task
@@ -93,12 +93,77 @@ module.exports = (grunt) ->
       'clean:debug'
       'build:debug'
       expressServerTask
+      # 'node-inspector'
       'watch'
     ]
 
   grunt.registerTask 'server:dist', 'Build and preview a minified & production-ready version of your app.', [
     'dist'
     'expressServer:dist:keepalive'
+  ]
+
+  # Cordova
+  # -------------------
+  grunt.registerTask 'cordova:build', 'Run Cordova server in development mode, auto-rebuilding when files change.', [
+    'clean:cordova'
+    'clean:debug'
+    'build:debug'
+    'copy:assemble'
+    'copy:cordovaDebug'
+  ]
+
+  grunt.registerTask 'cordova:build:dist', 'Run Cordova server in development mode, auto-rebuilding when files change.', [
+    'clean:cordova'
+    'dist'
+    'copy:cordovaDist'
+  ]
+
+
+  grunt.registerTask 'cordova:prepare', 'Run Cordova server in development mode, auto-rebuilding when files change.', [
+    'cordova:build'
+    'shell:prepare'
+  ]
+
+  grunt.registerTask 'cordova:prepare:debug', 'Run Cordova server in development mode, auto-rebuilding when files change.', [
+    'cordova:build'
+    'copy:cordovaIndexDebug'
+    'shell:prepare'
+  ]
+
+  grunt.registerTask 'cordova:prepare:dist', 'Run Cordova server in development mode, auto-rebuilding when files change.', [
+    'cordova:build:dist'
+    'shell:prepare'
+  ]
+
+  grunt.registerTask 'cordova:prepare:emulate', 'Run Cordova server in development mode, auto-rebuilding when files change.', [
+    'cordova:build'
+    'copy:cordovaIndexDist'
+    'shell:prepare'
+  ]
+
+  grunt.registerTask 'cordova:serve', 'Run Cordova server in development mode, auto-rebuilding when files change.', [
+    'cordova:prepare:debug'
+    'shell:serve'
+  ]
+
+  grunt.registerTask 'cordova:serve:dist', 'Run Cordova server in development mode, auto-rebuilding when files change.', [
+    'cordova:prepare:dist'
+    'shell:serve'
+  ]
+
+  grunt.registerTask 'cordova:emulate', 'Run Cordova server in development mode, auto-rebuilding when files change.', [
+    'cordova:prepare:emulate'
+    'shell:emulateIOS'
+  ]
+
+  grunt.registerTask 'cordova:emulate:dist', 'Run Cordova server in development mode, auto-rebuilding when files change.', [
+    'cordova:prepare:dist'
+    'shell:emulateIOS'
+  ]
+
+  grunt.registerTask 'cordova:dist', 'Run Cordova server in development mode, auto-rebuilding when files change.', [
+    'cordova:prepare:dist'
+    'shell:xcode'
   ]
   
   # Testing

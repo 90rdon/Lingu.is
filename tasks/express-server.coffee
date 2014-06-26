@@ -70,31 +70,31 @@ module.exports = (grunt) ->
           grunt.verbose.ok 'Served: ' + filePath
 
 
-  passThrough = (target) ->
+  passThrough   = (target) ->
     (req, res) ->
       req.pipe(request(target + req.url)).pipe res
 
+  
+  OpenTok       = require('opentok')
+  express       = require('express')
+  lockFile      = require('lockfile')
+  Helpers       = require('./helpers')
+  fs            = require('fs')
+  path          = require('path')
+  request       = require('request')
+  Firebase      = require('firebase')
 
-
-
-
-  express = require('express')
-  lockFile = require('lockfile')
-  Helpers = require('./helpers')
-  fs = require('fs')
-  path = require('path')
-  request = require('request')
 
   grunt.registerTask 'expressServer', (target, keepalive) ->
     require 'express-namespace'
-
-
+    
     app = express()
     done = @async()
     # proxyMethod = proxyMethodToUse or grunt.config('express-server.options.APIMethod')
     proxyMethod = grunt.config('express-server.options.APIMethod')
     app.use lock
     app.use express.compress()
+    app.use app.router
 
 
     if proxyMethod is 'stub'
@@ -110,9 +110,17 @@ module.exports = (grunt) ->
 
     if target is 'debug'
       app.use require('connect-livereload')()  if Helpers.isPackageAvailable('connect-livereload')
+      app.use express.errorHandler ( 
+        dumpExceptions: true
+        showStack: true 
+      )
       app.use static_(
         urlRoot: '/config'
         directory: 'config'
+      )
+      app.use static_(
+        urlRoot: '/lib'
+        directory: 'lib'
       )
       app.use static_(
         urlRoot: '/vendor'
@@ -135,6 +143,37 @@ module.exports = (grunt) ->
         file: 'dist/index.html'
         ignoredFileExtensions: /\.\w{1,5}$/
       )
+
+
+    # --- initialize opentok ---
+    urlSessions   = {};
+    OTKEY         = grunt.config('opentok.options.tokboxKey') || process.env.TB_KEY
+    OTSECRET      = grunt.config('opentok.options.tokboxSecret') || process.env.TB_SECRET
+    opentok       = new OpenTok(OTKEY, OTSECRET)
+
+    sendResponse  = (sessionKey, sessionId, res) ->
+      token       = opentok.generateToken(sessionId)
+      data        = opentok: OTKEY, sessionId: sessionId, token: token
+
+      firebaseUri = grunt.config('firebase.options.uri') || process.env.FB_URI
+      callRef     = new Firebase(firebaseUri + 'call')
+      callRef.child(sessionKey).set(token: data)
+      res.send 200
+
+    # to debug, use http://0.0.0.0:8080/token/123
+    app.get '/token/:session_id', (req, res) ->
+      return res.status(500).send(err: 'Session Id required.')  unless req.params.session_id?
+
+      # todo: add to check if this session id is validate from firebase 
+      
+      unless urlSessions[ req.params.session_id ]?
+        opentok.createSession (err, session) ->
+          return res.send 500, err: err  if err
+          urlSessions[ req.params.session_id ] = session.sessionId
+          sendResponse req.params.session_id, session.sessionId, res
+      else
+        sendResponse req.params.session_id, urlSessions[ req.params.session_id ], res
+
 
     port = parseInt(process.env.PORT or 3333, 10)
 

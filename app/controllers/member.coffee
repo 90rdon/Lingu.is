@@ -1,22 +1,62 @@
+`import NormalizeAccount  from 'linguis/utils/auth/normalize-account'`
 
+memberController = Ember.ObjectController.extend
+  needs: [
+    'profile'
+  ]
 
-memberController = Ember.ObjectController.extend()
-#   needs: [
-#     'index'
-#   ]
+  init: ->
+    self = @
+    @set('store', App.__container__.lookup('store:main'))
 
-#   search: (->
-#     @get('controllers.index.search')
-#   ).property()
+  normalize: (profileRef) ->
+    new Ember.RSVP.Promise (resolve) ->
 
-#   searchMatched: (->
-#     regexp = new RegExp(@get('search'))
-#     profiles = @get('profiles')
-#     isTrue = profiles.some (profile) ->
-#       regexp.test profile.get('to')
-#     # @get('profiles').anyBy('to', @get('search'))
-#     console.log isTrue
-#     isTrue
-#   ).property('search', 'profiles')
+      switch profileRef.toFirebaseJSON().provider
+        when 'twitter'    then resolve(NormalizeAccount.Twitter(profileRef))
+        when 'github'     then resolve(NormalizeAccount.Github(profileRef))
+        when 'facebook'   then resolve(NormalizeAccount.Facebook(profileRef))
+
+  create: (identity) ->
+    self = @
+    new Ember.RSVP.Promise (resolve, reject) ->
+
+      self.get('controllers.profile').create(identity).then (profileRef) ->
+        self.normalize(profileRef).then (user) ->
+          user.set('id', profileRef.toFirebaseJSON().uuid)
+          self.store.createRecord('member', user).save().then (memberRef) ->
+            resolve(memberRef)
+          , (error) ->
+            reject(error)
+
+  logon: (memberRef, logon) ->
+    memberRef.buildFirebaseReference()
+    .child('logon')
+    .set(logon)
+
+    memberRef.buildFirebaseReference()
+    .child('logon')
+    .onDisconnect()
+    .set(false)
+
+    memberRef.buildFirebaseReference()
+    .child('status')
+    .onDisconnect()
+    .set('logoff')
+
+  refresh: (memberRef, status) ->
+    memberRef.buildFirebaseReference()
+    .child('status')
+    .set(status)
+
+  findRefByUuid: (uuid) ->
+    self = @
+    new Ember.RSVP.Promise (resolve, reject) ->
+
+      self.store.fetch('member',  uuid).then (memberRef) ->
+        resolve(memberRef)
+      , (error) ->
+        reject(error)
+
 
 `export default memberController`

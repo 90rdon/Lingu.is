@@ -8,8 +8,7 @@ module.exports = {
       cwd: 'app',
       src: '**/*.js',
       dest: 'tmp/javascript/app'
-    },
-    {
+    }, {
       expand: true,
       cwd: 'tests',
       src: ['**/*.js', '!test_helper.js', '!test_loader.js'],
@@ -23,14 +22,12 @@ module.exports = {
       cwd: 'app/styles',
       src: ['**/*.css', '!**/*.styl'],
       dest: 'tmp/result/assets'
-    },
-    {
+    }, {
       expand: true,
       cwd: 'vendor/icomatic/kit',
       src: ['*.{eot,svg,ttf,woff}'],
       dest: 'tmp/result/assets'
-    },
-    {
+    }, {
       expand: true,
       cwd: 'vendor/topcoat',
       src: ['**/*.{eot,svg,ttf,woff,otf}', '!demo/**/*'],
@@ -38,14 +35,48 @@ module.exports = {
     }]
   },
 
-  cordova: {
+  cordovaDebug: {
+    files: [{
+      expand: true,
+      cwd: 'tmp/result',
+      src: ['**'],
+      dest: 'cordova/www'
+    }, {
+      expand: true,
+      cwd: 'vendor',
+      src: ['**/*.{js,css,woff,ttf,svg}'],
+      dest: 'cordova/www/vendor'
+    }, {
+      expand: true,
+      cwd: 'config',
+      src: ['**'],
+      dest: 'cordova/www/config'
+    }]
+  },
+
+  cordovaIndexDebug: {
+    files: [{
+      expand: true,
+      cwd: 'cordova/merges/ios/debug',
+      src: ['index.html'],
+      dest: 'cordova/merges/ios'
+    }]
+  },
+
+  cordovaIndexDist: {
+    files: [{
+      expand: true,
+      cwd: 'cordova/merges/ios/dist',
+      src: ['index.html'],
+      dest: 'cordova/merges/ios'
+    }]
+  },
+
+  cordovaDist: {
     files: [{
       expand: true,
       cwd: 'dist/',
-      src: [
-        '**'
-        // '!**/index.html'  // cordova uses a different index page
-      ],
+      src: ['**'],
       filter: 'isFile',
       dest: 'cordova/www'
     }]
@@ -57,22 +88,22 @@ module.exports = {
   // for normal development this is done on the fly by the development server.
   assemble: {
     files: [{
-      expand: true,
-      cwd: 'tests',
-      src: ['test_helper.js', 'test_loader.js'],
-      dest: 'tmp/result/tests/'
-    }, {
-      expand: true,
-      cwd: 'public',
-      src: ['**'],
-      dest: 'tmp/result/'
-    }, {
-      src: ['vendor/**/*.js', 'vendor/**/*.css'],
-      dest: 'tmp/result/'
-    }, {
-      src: ['config/environment.js', 'config/environments/production.js'],
-      dest: 'tmp/result/'
-    }
+        expand: true,
+        cwd: 'tests',
+        src: ['test_helper.js', 'test_loader.js'],
+        dest: 'tmp/result/tests/'
+      }, {
+        expand: true,
+        cwd: 'public',
+        src: ['**'],
+        dest: 'tmp/result/'
+      }, {
+        src: ['vendor/**/*.js', 'vendor/**/*.css', 'lib/**/*.js', 'lib/**/*.css'],
+        dest: 'tmp/result/'
+      }, {
+        src: ['config/environment.js', 'config/environments/production.js'],
+        dest: 'tmp/result/'
+      }
 
     ]
   },

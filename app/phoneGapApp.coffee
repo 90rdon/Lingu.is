@@ -7,7 +7,7 @@ phoneGapApp = {
   #
   # Bind any events that are required on startup. Common events
   # are:
-  # 'load', 'deviceready', 'offline', and 'online'.
+  # 'load', 'deviceready', 'offline', and 'connection'.
   bindEvents: ->
     document.addEventListener 'deviceready', @onDeviceReady, false
   
@@ -17,6 +17,7 @@ phoneGapApp = {
   # 'receivedEvent'
   # function, we must explicity call 'app.receivedEvent(...);'
   onDeviceReady: ->
+    console.log 'app from here? ' + App.serverUri
     phoneGapApp.receivedEvent 'deviceready'
 
     if parseFloat(window.device.version) is 7.0
@@ -44,7 +45,7 @@ phoneGapApp = {
     # session.addEventListener 'sessionConnected', sessionConnectedHandler
     # session.addEventListener 'streamCreated', streamCreatedHandler
 
-    # console.log 'PhoneGap binded'
+    console.log 'PhoneGap binded'
     
   # Update DOM on a Received Event
   receivedEvent: (id) ->
